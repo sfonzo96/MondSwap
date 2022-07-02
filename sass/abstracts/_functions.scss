@@ -1,0 +1,5 @@
+@use "./colors"as c;
+
+@function color($color-name) {
+    @return map-get(c.$mondswappalette, $color-name);
+}

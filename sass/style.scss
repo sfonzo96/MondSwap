@@ -1,0 +1,45 @@
+/* Properties order: display stuff > positioning > box modelling > typography > object manipulation */
+/* Orden de propiedades: display > posicionamiento > formato de cajas general > tipografía > manipulación de objetos */
+
+@use './abstracts/' as abs;
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+    font-family: abs.$main-font;
+    font-weight: 100;
+    list-style: none;
+}
+
+html {
+    height: 100%;
+
+    font-size: 62.5%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    width: 100%;
+    min-height: 100vh;
+    padding: 0;
+    background-color:  abs.color('background');
+
+    color: abs.color('plainwhite');
+}
+
+h1 {
+    padding: 1rem 0;
+    width: 100%;
+
+    text-align: center;
+}
+
+img {
+    width: 40rem;
+
+}
