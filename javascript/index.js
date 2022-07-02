@@ -16,7 +16,6 @@ if (confirm('¿Deseas realizar algun intercambio entre monedas?')) {
     alert('Intercambio exitoso!');
 }
 
-
 // FUNCIONES
 
 function validarSaldoPositivo(balance) {
@@ -98,9 +97,16 @@ function validarTickerDestino(destinyCoin){
 
 
 
-/* FUNCION PARA CONVERTIR Y REDEFINIR BALANCES
-function swapOk(originCoin, destinyCoin, swapAmount) {
-    Muy a lo bruto, tengo que hacer este calculo. Pensar como vincular los valores y los balances en funcion de lo que se ingresa al promp sin repetir tanto codigo.
+/* 
+FUNCION PARA CONVERTIR Y REDEFINIR BALANCES
+
+Posible forma de calculo para conversiion: usar if (originCoin == 'usdt' && destinyCoin == 'btc') {swapOk(usdtVal,btcVal,swapAmount)} else if {} repetir para todas las posibilidades...
+
+
+function swapOk(originVal, destinyVal, swapAmount) {
+    Muy a lo bruto, tengo que hacer este calculo. Pensar como vincular los valores y los balances en funcion de lo que se ingresa al promp para no repetir tanto codigo.
     balanceDestino = balanceDestino + swapAmount * valorOrigen / valorDestino;
     balanceOrigen = balanceOrigen - swapAmount;
-} */
+} 
+ */
+
