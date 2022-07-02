@@ -95,8 +95,6 @@ function validarTickerDestino(destinyCoin){
     }
 }
 
-
-
 /* 
 FUNCION PARA CONVERTIR Y REDEFINIR BALANCES
 
