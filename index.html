@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -14,78 +14,54 @@
 </head>
 <body>
     <header>
-        <img src="./assets/mswapisologo.svg" alt="MondSwap logo">
-        <p>MondSwap</p>
+        <div>
+            <img src="./assets/Sustracción 2.svg" alt="MondSwap logo">
+            <p>MondSwap</p>
+        </div>
         <nav>
             <ul>
                 <li>Home</li>
                 <li>Swap</li>
-                <li>Earn
-                    <ul>
-                        <li>Pools</li>
-                        <li>Farm</li>
-                    </ul>
-                </li>
-                <li>About</li>
-                <li>Support</li>
+                <li>Staking</li>
+                <li>Contact</li>
             </ul>
         </nav>
     </header>
-    <section>
-        <h1>MondSwap</h1>
-        <p></p>
-        <img src="" alt="">
-        <button>Start now!</button>
+    <section class="section__starter" id="start">
+        <div>
+            <div>
+                <h1>The best dex for starters!</h1>
+                <p>
+                    The easiest way to learn about DeFi, without risks!<br>
+                    You'll get fake crypto so you can do your first swaps and trades, you'll be able to stake tokens in order to earn more.<br>
+                    So, we provide a riskless solution for those who are afraid of making mistakes because, let's be honest, who haven't make one?<br>
+                    Get your first 100 USDT now by clicking the following button!
+                </p>
+                <button><a href="#swapSection">Start now!</a></button>
+            </div>
+            <img src="./assets/blockchainneon.svg" alt="">
+        </div>
         <button class="scrollDownBtn"></button>
     </section>
-    <section>
+    <section class="section__swap" id="swapSection">
         <h2>Swap</h2>
         <div>
             <p></p>
-            <input type="text" id="origincoin">
-                <datalist>
-                    <option value="USDT"></option>
-                    <option value="BTC"></option>
-                    <option value="ETH"></option>
-                    <option value="ADA"></option>
-                    <option value="DOT"></option>
-                </datalist>
-            <input type="number">
-            <input type="text" id="destinycoin">
-                <datalist>
-                    <option value="USDT"></option>
-                    <option value="BTC"></option>
-                    <option value="ETH"></option>
-                    <option value="ADA"></option>
-                    <option value="DOT"></option>
-                </datalist>
-            <input type="submit" name="" id="">
+            <select name="" id="fromCoinList">
+
+            </select>
+            <input type="number" id="fromAmount">
+            <select name="" id="toCoinList">
+
+            </select>
+            <div id="toAmount"></div>
+            <input type="submit" name="" id="swapBtn">
         </div>
         <button class="scrollDownBtn"></button>
         <button class="scrollUpBtn"></button>
     </section>
-    <section>
-        <h2>Earn</h2>
-        <h3>Staking pools</h3>
-        <!-- Ver disenos dexes para farming y staking, completar estructura -->
-        <button class="scrollDownBtn"></button>
-        <button class="scrollUpBtn"></button>
-    </section>
-    <section>
-        <h2>Earn</h2>
-        <h3>Farming</h3>
-        <!-- Ver disenos dexes para farming y staking, completar estructura -->
-        <button class="scrollDownBtn"></button>
-        <button class="scrollUpBtn"></button>
-    </section>
-    <section>
-        <h2>What is MondSwap?</h2>
-        <p></p>
-        <button class="scrollDownBtn"></button>
-        <button class="scrollUpBtn"></button>
-    </section>
-    <section>
-        <h2>Having any troubles? Let us know!</h2>
+    <section class="section__staking">
+        <h2>Earn by staking!</h2>
         <button class="scrollDownBtn"></button>
         <button class="scrollUpBtn"></button>
     </section>
@@ -96,15 +72,14 @@
                 <ul>
                     <li>Home</li>
                     <li>Swap</li>
-                    <li>Earn</li>
-                    <li>About</li>
-                    <li>Support</li>
+                    <li>Staking</li>
+                    <li>Contact</li>
                 </ul>
             </div>
             <div></div>
         </div>
         <small></small>
     </footer>
-    <script src="/javascript/index.js" defer></script>
+    <script src="" defer></script>
 </body>
 </html>

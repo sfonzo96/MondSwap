@@ -9,6 +9,7 @@ if (confirm('¿Deseas realizar algun intercambio entre monedas?')) {
         originCoin = prompt(`Este es tu balance: \n USDT: ${usdtBalance} \n BTC: ${btcBalance} \n ETH: ${ethBalance} \n ADA: ${adaBalance} \n DOT: ${dotBalance} \nPor favor, ingresá el ticker de la moneda que quisieras intercambiar.`).toLowerCase();
     } while(!validarTickerYSwap(originCoin));
     console.log('Hasta aca parece viajar');
+    
     do {
         destinyCoin = prompt('Por favor, ingresá el ticker de la moneda que quisieras obtener. Solo están disponibles: USDT, BTC, ETH, ADA y DOT.').toLocaleLowerCase();
     } while(!validarTickerDestino(destinyCoin));
