@@ -1,6 +1,75 @@
+@use '../abstracts/index' as abs;
 
-    .section__swap {
-        width: 100%;
-        height: max-content;
-        position: relative;
+.section__swap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    height: calc(100vh - 6rem);
+    position: relative;
+    top: 6rem;
+    padding: 1rem;
+
+    h2 {
+        font-size: 3rem;
+        margin: 2.5rem;
+        position: absolute;
+        top: 6rem;
+
+        text-align: center;
     }
+
+    .swapContainer {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        gap: 2rem;
+
+        padding: 3rem;
+        width: max-content;
+        height: max-content;
+        background-color: abs.color('main-blue');
+        border-radius: 2rem;
+    
+        font-size: 1.6rem;
+
+        &> div {
+            display: flex;
+            flex-direction: column;
+
+            width: 100%;
+            gap: 1rem;
+
+            select, input {
+                padding: .5rem;
+                border-radius: 1rem;
+                color: abs.color('main-blue');
+                text-align: center;
+
+                &:focus-visible {
+                    outline: 0;
+                }
+
+                &:hover {
+                    outline: .1rem solid abs.color('pink-detail');
+                }
+            }
+        }
+
+        .swapBtn {
+            width: max-content;
+            border-radius: 5rem;
+            padding: 1rem 1.5rem;
+            background-color: abs.color('pink-detail');
+
+            color: abs.color('plainwhite');
+
+            &:hover {
+                cursor: pointer;
+            }
+        }
+    }
+}

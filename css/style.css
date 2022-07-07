@@ -3,8 +3,7 @@ header {
   width: 100%;
   display: flex;
   background-color: rgba(32, 21, 71, 0.937254902);
-  position: -webkit-sticky;
-  position: sticky;
+  position: fixed;
   top: 0;
   z-index: 10;
 }
@@ -28,32 +27,45 @@ header ul {
 }
 
 .section__starter {
-  height: -webkit-max-content;
-  height: -moz-max-content;
-  height: max-content;
+  width: 100%;
+  height: calc(100vh - 6rem);
   position: relative;
-}
-.section__starter > div {
+  top: 6rem;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
 }
-.section__starter > div div {
+.section__starter div {
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 1rem;
+  width: 100%;
+  gap: 3rem;
 }
-.section__starter > div div h1 {
-  font-size: 3rem;
-  padding: 1rem 2rem;
+.section__starter div h1 {
+  font-size: 4rem;
+  position: relative;
 }
-.section__starter > div div p {
-  font-size: 1.6rem;
-  padding: 1rem 2rem;
+.section__starter div h1::before {
+  content: "";
+  height: 0.125em;
+  width: 100%;
+  position: absolute;
+  top: 4rem;
+  z-index: -1;
+  background: #E93CAC;
 }
-.section__starter > div div button {
+.section__starter div h2 {
+  font-size: 2rem;
+  text-align: center;
+}
+.section__starter div p {
+  font-size: 1.4rem;
+  text-align: center;
+}
+.section__starter div button {
   position: relative;
   width: 15rem;
   margin: 1rem 0;
@@ -67,10 +79,10 @@ header ul {
   text-shadow: 0 0 0.45em #E93CAC;
   cursor: pointer;
 }
-.section__starter > div div button a {
+.section__starter div button a {
   color: #E93CAC;
 }
-.section__starter > div div button::before {
+.section__starter div button::before {
   pointer-events: none;
   content: "";
   position: absolute;
@@ -83,30 +95,129 @@ header ul {
   filter: blur(1em);
   opacity: 0.7;
 }
-.section__starter > div div button:hover {
+.section__starter div button:hover {
   background-color: #E93CAC;
 }
-.section__starter > div div button:hover a {
+.section__starter div button:hover a {
   color: rgba(32, 21, 71, 0.937254902);
 }
-.section__starter > div div button:hover::before {
+.section__starter div button:hover::before {
   opacity: 1;
 }
-.section__starter > div img {
-  width: 20rem;
-  margin: 3rem 1rem;
+.section__starter img {
+  width: 15rem;
+  margin: auto 1rem;
 }
-.section__starter .dscrollDownBtn {
-  background: transparent;
-  width: 10rem;
+
+.tapDown {
+  align-self: flex-start;
+  display: flex;
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+  position: relative;
+  left: 2rem;
+  top: 0;
+  z-index: 9;
+  margin: auto 0;
+  color: #00BCE1;
+  transform: rotate(-90deg);
+  transform-origin: 0;
+}
+.tapDown::before {
+  content: "";
+  background-color: #E93CAC;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  left: -1rem;
+  position: relative;
 }
 
 .section__swap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   width: 100%;
+  height: calc(100vh - 6rem);
+  position: relative;
+  top: 6rem;
+  padding: 1rem;
+}
+.section__swap h2 {
+  font-size: 3rem;
+  margin: 2.5rem;
+  position: absolute;
+  top: 6rem;
+  text-align: center;
+}
+.section__swap .swapContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+  padding: 3rem;
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
   height: -webkit-max-content;
   height: -moz-max-content;
   height: max-content;
+  background-color: rgba(32, 21, 71, 0.937254902);
+  border-radius: 2rem;
+  font-size: 1.6rem;
+}
+.section__swap .swapContainer > div {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 1rem;
+}
+.section__swap .swapContainer > div select, .section__swap .swapContainer > div input {
+  padding: 0.5rem;
+  border-radius: 1rem;
+  color: rgba(32, 21, 71, 0.937254902);
+  text-align: center;
+}
+.section__swap .swapContainer > div select:focus-visible, .section__swap .swapContainer > div input:focus-visible {
+  outline: 0;
+}
+.section__swap .swapContainer > div select:hover, .section__swap .swapContainer > div input:hover {
+  outline: 0.1rem solid #E93CAC;
+}
+.section__swap .swapContainer .swapBtn {
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+  border-radius: 5rem;
+  padding: 1rem 1.5rem;
+  background-color: #E93CAC;
+  color: #fff;
+}
+.section__swap .swapContainer .swapBtn:hover {
+  cursor: pointer;
+}
+
+.section__staking {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: calc(100vh - 6rem);
   position: relative;
+  top: 6rem;
+}
+.section__staking h2 {
+  margin: auto;
+}
+
+footer {
+  position: relative;
+  margin-top: auto;
+  width: 100%;
 }
 
 /* Properties order: display stuff > positioning > box modelling > typography > object manipulation */
@@ -123,6 +234,7 @@ header ul {
 html {
   height: 100%;
   font-size: 62.5%;
+  scroll-behavior: smooth;
 }
 
 body {
@@ -137,4 +249,20 @@ body {
 }
 body a {
   text-decoration: none;
+}
+
+.scrollDownBtn {
+  background-image: url(../assets/accesories/scrolldown.svg);
+  display: none;
+}
+
+.scrollUpBtn {
+  background-image: url(../assets/accesories/scrollup.svg);
+  display: none;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }/*# sourceMappingURL=style.css.map */

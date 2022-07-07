@@ -4,7 +4,7 @@ header {
     width: 100%;
     display: flex;
     background-color: abs.color('main-blue');
-    position: sticky;
+    position: fixed;
     top: 0;
     z-index: 10;
 

@@ -1,89 +1,129 @@
 @use '../abstracts/index' as abs;
 
 .section__starter {
-    height: max-content;
+    width: 100%;
+    height: calc(100vh - 6rem);
     position: relative;
+    top: 6rem;
 
-    &> div {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
-           
-        div {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 1rem;
 
-            h1 {
-                font-size: 3rem;
-                padding: 1rem 2rem;
+    div {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 1rem;
+        width: 100%;
+        gap: 3rem;
+
+        h1 {
+            font-size: 4rem;
+            position: relative;
+
+            &::before {
+                content: "";
+                height: .125em;
+                width: 100%;
+                position: absolute;
+                top: 4rem;
+                z-index: -1;
+                background: abs.color('pink-detail');
             }
+        }
 
-            p {
-                font-size: 1.6rem;
-                padding: 1rem 2rem;
-            }
+        h2 {
+            font-size: 2rem;
 
-            button {
-                position: relative;
+            text-align: center;
+        }
 
-                width: 15rem;
-                margin: 1rem 0;
-                padding: 0.5em;
-                border: 0.125em solid abs.color('pink-detail');
-                border-radius: 3.125em;
-                background-color: transparent;
-                box-shadow: 0 0 0.45em abs.color('pink-detail'), inset 0 0 0.45em abs.color('pink-detail');
-                
+        p {
+            font-size: 1.4rem;
+            text-align: center;
+        }
+
+        button {
+            position: relative;
+
+            width: 15rem;
+            margin: 1rem 0;
+            padding: 0.5em;
+            border: 0.125em solid abs.color('pink-detail');
+            border-radius: 3.125em;
+            background-color: transparent;
+            box-shadow: 0 0 0.45em abs.color('pink-detail'), inset 0 0 0.45em abs.color('pink-detail');
+            
+            color: abs.color('pink-detail');
+            font-size: 2rem;
+            text-shadow: 0 0 0.45em abs.color('pink-detail');
+            
+            cursor: pointer;
+            
+            a {
                 color: abs.color('pink-detail');
-                font-size: 2rem;
-                text-shadow: 0 0 0.45em abs.color('pink-detail');
+            }
+
+            &::before {
+                pointer-events: none;
+                content: "";
+                position: absolute;
+                background: abs.color('pink-detail');
+                top: 100%;
+                left: 0;
+                width: 100%;
+                height: 100%;
                 
-                cursor: pointer;
+                transform: perspective(1em) rotateX(40deg) scale(1, 0.25);
+                filter: blur(1em);
+                opacity: 0.7;
+            }
+
+            &:hover {
+                background-color: abs.color('pink-detail');
                 
                 a {
-                    color: abs.color('pink-detail');
+                    color: abs.color('main-blue');
                 }
 
                 &::before {
-                    pointer-events: none;
-                    content: "";
-                    position: absolute;
-                    background: abs.color('pink-detail');
-                    top: 100%;
-                    left: 0;
-                    width: 100%;
-                    height: 100%;
-                  
-                    transform: perspective(1em) rotateX(40deg) scale(1, 0.25);
-                    filter: blur(1em);
-                    opacity: 0.7;
-                }
-
-                &:hover {
-                    background-color: abs.color('pink-detail');
-                    
-                    a {
-                        color: abs.color('main-blue');
-                    }
-
-                    &::before {
-                        opacity: 1;
-                    }
+                    opacity: 1;
                 }
             }
         }
-
-        img {
-            width: 20rem;
-            margin: 3rem 1rem;
-        }
     }
 
-    .dscrollDownBtn {
-        background: transparent;
-        width: 10rem;
+    img {
+        width: 15rem;
+        margin: auto 1rem;
+    }
+}
+
+.tapDown {
+    align-self: flex-start;
+    display: flex;
+    width: max-content;
+
+    position: relative;
+    left: 2rem;
+    top: 0;
+    z-index: 9;
+
+    margin: auto 0;
+
+    color: abs.color('main-cyan');
+    transform: rotate(-90deg);
+    transform-origin: 0;
+
+    &::before {
+        content: "";
+        background-color: abs.color('pink-detail');
+        width: 1rem;
+        height: 1rem;
+        border-radius: 50%;
+        left: -1rem;
+        position: relative;
     }
 }

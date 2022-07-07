@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MondSwap</title>
-    <link rel="icon" type="image/x-icon" href="./assets/mswapisologo.svg">
+    <link rel="icon" type="image/x-icon" href="./assets/mswapisologosynth.svg">
     <link rel="stylesheet" href="./css/normalize.css">
     <link rel="stylesheet" href="./css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -29,33 +29,35 @@
     </header>
     <section class="section__starter" id="start">
         <div>
-            <div>
-                <h1>The best dex for starters!</h1>
-                <p>
-                    The easiest way to learn about DeFi, without risks!<br>
-                    You'll get fake crypto so you can do your first swaps and trades, you'll be able to stake tokens in order to earn more.<br>
-                    So, we provide a riskless solution for those who are afraid of making mistakes because, let's be honest, who haven't make one?<br>
-                    Get your first 100 USDT now by clicking the following button!
-                </p>
-                <button><a href="#swapSection">Start now!</a></button>
-            </div>
-            <img src="./assets/blockchainneon.svg" alt="">
+            <h1>MondSwap</h1>
+            <h2>Easy dex for starters on Moonbeam Network!</h2>
+            <p>
+                The easiest way to learn about DeFi, without risks!<br>
+                You'll get fake crypto so you can do your first swaps and trades, you'll be able to stake tokens in order to earn more.<br>
+                So, we provide a riskless solution for those who are afraid of making mistakes because, let's be honest, who haven't make one?<br>
+                Get your first 100 USDT now by clicking the following button!
+            </p>
+            <button><a href="#swapSection">Start now!</a></button>
         </div>
-        <button class="scrollDownBtn"></button>
+        <img src="./assets/blockchainneon.svg" alt="">
+        <a href="#swapSection" class="tapDown"><p>Tap to scroll down</p></a>
     </section>
     <section class="section__swap" id="swapSection">
         <h2>Swap</h2>
-        <div>
-            <p></p>
-            <select name="" id="fromCoinList">
-
-            </select>
-            <input type="number" id="fromAmount">
-            <select name="" id="toCoinList">
-
-            </select>
-            <div id="toAmount"></div>
-            <input type="submit" name="" id="swapBtn">
+        <div class="swapContainer" id="form">
+            <div>
+                <select name="" id="fromCoinList">
+                    <option value="">Pick your owned coin</option>
+                </select>
+                <input type="number" id="fromAmount">
+            </div>
+            <div>
+                <select name="" id="toCoinList">
+                    <option value="">Pick your the coin you want</option>
+                </select>
+                <input type="number" id="toAmount">
+            </div>
+            <input type="submit" name="" class="swapBtn" value="Swap tokens">
         </div>
         <button class="scrollDownBtn"></button>
         <button class="scrollUpBtn"></button>
@@ -80,6 +82,6 @@
         </div>
         <small></small>
     </footer>
-    <script src="" defer></script>
+    <script src="./javascript/app.js" defer></script>
 </body>
 </html>
