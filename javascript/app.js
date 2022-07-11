@@ -32,12 +32,6 @@ function listCurrencies (element) {
     })
 } //Funciona OK
 
-document.addEventListener('DOMContentLoaded', ()=>{
-    form.addEventListener('submit', submitForm); //Funciona OK
-    fromCoinList.addEventListener('change', function () {getValue(fromCoinList)}); //Funciona OK
-    toCoinList.addEventListener('change', function () {getValue(toCoinList)}); //Funciona OK
-});
-
 function getValue(selectedList) { //Funciona OK // Validar para que no tome como valor el default del elemento select sino el de los options (childs)
     if (selectedList == fromCoinList) {
         fromSelected = selectedList.value;
@@ -62,6 +56,7 @@ function calcularSwap() { //Funcion OK
           fromPrice = currency.price;  
         }
     })
+    
     criptocurrencies.forEach (currency => {
         if (toSelected == currency.ticker) {
           toPrice = currency.price;  
@@ -74,6 +69,13 @@ function calcularSwap() { //Funcion OK
 listCurrencies(fromCoinList);
 listCurrencies(toCoinList);
 
+document.addEventListener('DOMContentLoaded', ()=>{
+    form.addEventListener('submit', submitForm); //Funciona OK
+    fromCoinList.addEventListener('change', function () {getValue(fromCoinList)}); //Funciona OK
+    toCoinList.addEventListener('change', function () {getValue(toCoinList)}); //Funciona OK
+});
+
 // Pendientes:
 // Desarrollar faucet y sistemma de balances.
 // Desarrollar sistema staking.
+// Automatizar mostrar el valor de la conversion (ejecutar calcularSwap ante el evento de ingresar un value en el fromAmountInput) y posteriormente vincular el evento submit a el cambio en los balances (con previo confirm).
