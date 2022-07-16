@@ -66,13 +66,11 @@
                 color: abs.color('pink-detail');
                 font-size: 2rem;
                 text-shadow: 0 0 0.45em abs.color('pink-detail');
+
                 
                 cursor: pointer;
                 
-                a {
-                    color: abs.color('pink-detail');
-                }
-    
+
                 &::before {
                     pointer-events: none;
                     content: "";
@@ -90,10 +88,8 @@
     
                 &:hover {
                     background-color: abs.color('pink-detail');
-                    
-                    a {
-                        color: abs.color('main-blue');
-                    }
+
+                    color: abs.color('main-blue');
     
                     &::before {
                         opacity: 1;

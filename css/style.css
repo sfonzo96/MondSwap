@@ -87,9 +87,6 @@ header ul {
   text-shadow: 0 0 0.45em #E93CAC;
   cursor: pointer;
 }
-.section__starter .wrapper div button a {
-  color: #E93CAC;
-}
 .section__starter .wrapper div button::before {
   pointer-events: none;
   content: "";
@@ -105,8 +102,6 @@ header ul {
 }
 .section__starter .wrapper div button:hover {
   background-color: #E93CAC;
-}
-.section__starter .wrapper div button:hover a {
   color: rgba(32, 21, 71, 0.937254902);
 }
 .section__starter .wrapper div button:hover::before {
