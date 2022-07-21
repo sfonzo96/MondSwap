@@ -55,6 +55,7 @@ header ul {
 .section__starter .wrapper div h1 {
   font-size: 3.5rem;
   position: relative;
+  margin: 2rem 0;
 }
 .section__starter .wrapper div h1::before {
   content: "";
@@ -73,7 +74,12 @@ header ul {
   font-size: 1.4rem;
   text-align: center;
 }
-.section__starter .wrapper div button {
+.section__starter .wrapper div .btnContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+.section__starter .wrapper div .btnContainer button {
   position: relative;
   width: 15rem;
   margin: 1rem 0;
@@ -87,7 +93,7 @@ header ul {
   text-shadow: 0 0 0.45em #E93CAC;
   cursor: pointer;
 }
-.section__starter .wrapper div button::before {
+.section__starter .wrapper div .btnContainer button::before {
   pointer-events: none;
   content: "";
   position: absolute;
@@ -100,11 +106,12 @@ header ul {
   filter: blur(1em);
   opacity: 0.7;
 }
-.section__starter .wrapper div button:hover {
+.section__starter .wrapper div .btnContainer button:hover {
   background-color: #E93CAC;
   color: rgba(32, 21, 71, 0.937254902);
+  text-shadow: 0 0 1px rgba(32, 21, 71, 0.937254902);
 }
-.section__starter .wrapper div button:hover::before {
+.section__starter .wrapper div .btnContainer button:hover::before {
   opacity: 1;
 }
 .section__starter .wrapper img {
@@ -145,17 +152,25 @@ header ul {
   width: 100%;
   height: calc(100vh - 6rem);
   position: relative;
-  top: 6rem;
-  padding: 1rem;
 }
-.section__swap h2 {
+.section__swap .wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+  padding: 1rem;
+  gap: 4rem;
+}
+.section__swap .wrapper h2 {
   font-size: 3rem;
-  margin: 2.5rem;
-  position: absolute;
-  top: 6rem;
+  margin: 8rem auto 3rem;
+  position: relative;
+  width: 100%;
   text-align: center;
 }
-.section__swap .swapContainer {
+.section__swap .wrapper .swapContainer {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -165,6 +180,7 @@ header ul {
   width: -webkit-max-content;
   width: -moz-max-content;
   width: max-content;
+  margin-bottom: auto;
   height: -webkit-max-content;
   height: -moz-max-content;
   height: max-content;
@@ -172,25 +188,25 @@ header ul {
   border-radius: 2rem;
   font-size: 1.6rem;
 }
-.section__swap .swapContainer div {
+.section__swap .wrapper .swapContainer div {
   display: flex;
   flex-direction: column;
   width: 100%;
   gap: 1rem;
 }
-.section__swap .swapContainer div select, .section__swap .swapContainer div input {
+.section__swap .wrapper .swapContainer div select, .section__swap .wrapper .swapContainer div input {
   padding: 0.5rem;
   border-radius: 1rem;
   color: rgba(32, 21, 71, 0.937254902);
   text-align: center;
 }
-.section__swap .swapContainer div select:focus-visible, .section__swap .swapContainer div input:focus-visible {
+.section__swap .wrapper .swapContainer div select:focus-visible, .section__swap .wrapper .swapContainer div input:focus-visible {
   outline: 0;
 }
-.section__swap .swapContainer div select:hover, .section__swap .swapContainer div input:hover {
+.section__swap .wrapper .swapContainer div select:hover, .section__swap .wrapper .swapContainer div input:hover {
   outline: 0.1rem solid #E93CAC;
 }
-.section__swap .swapContainer .swapBtn {
+.section__swap .wrapper .swapContainer .swapBtn {
   width: -webkit-max-content;
   width: -moz-max-content;
   width: max-content;
@@ -199,7 +215,7 @@ header ul {
   background-color: #E93CAC;
   color: #fff;
 }
-.section__swap .swapContainer .swapBtn:hover {
+.section__swap .wrapper .swapContainer .swapBtn:hover {
   cursor: pointer;
 }
 

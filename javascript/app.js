@@ -39,7 +39,15 @@ function getValue(selectedList) { //Funciona OK // Validar para que no tome como
     } else if (selectedList == toCoinList) {
         toSelected = selectedList.value;
         console.log(toSelected);
+        
     }
+}
+
+function addSwapCalcEvnt() {
+    fromAmountInput.removeAttribute('readonly')
+    fromAmountInput.addEventListener('input', calcularSwap);
+    fromCoinList.addEventListener('change', calcularSwap)
+    toCoinList.addEventListener('change', calcularSwap)
 }
 
 function executeSwap(e) { //Funciona OK
@@ -66,31 +74,7 @@ function executeSwap(e) { //Funciona OK
             }
         }
     }
-
-    /* if (confirm(`You are swapping ${fromAmount} ${fromSelected} for ${toAmount} ${toSelected}. Are you sure about it?`)) {
-        criptocurrencies.forEach (currency => {
-            if (fromSelected == currency.ticker) {
-                if (currency.balance < fromAmount || fromAmount < 0) {
-                    alert("You can not swap more than you have! Or you've introduced a negative value"); //Hay que hacer esta validacion más fachera
-                    return; // Ejecuta el alert bien pero no retorna y la funcion sigue corriendo
-                } else { //No se ejecuta si entra al if anterior (OK)
-                    currency.balance -= fromAmount;
-                    console.log(currency.balance);
-                }
-            }
-        })
-
-        criptocurrencies.forEach (currency => { //Se ejecuta de todas formas. Por que? Porque el return que puse solo se retorna a la callback para ESA iteracion, por tanto sigue iterando y ejecutando el codigo.
-            if (toSelected == currency.ticker) {
-                console.log(`${toAmount}`);
-                currency.balance += toAmount;
-                console.log(currency.balance);
-            }
-        })
-    } */
 }
-
-
 
 function calcularSwap() { //Funcion OK
     fromAmount = fromAmountInput.value; //Funciona OK
@@ -114,14 +98,15 @@ function calcularSwap() { //Funcion OK
 listCurrencies(fromCoinList);
 listCurrencies(toCoinList);
 
-document.addEventListener('DOMContentLoaded', ()=>{
+document.addEventListener('DOMContentLoaded', ()=> {
     form.addEventListener('submit', executeSwap); //Funciona OK
     fromCoinList.addEventListener('change', () => {getValue(fromCoinList)}); //Funciona OK
-    toCoinList.addEventListener('change', () => {getValue(toCoinList)}); //Funciona OK
-    fromAmountInput.addEventListener('input', calcularSwap); //Funciona OK
+    toCoinList.addEventListener('change', () => {getValue(toCoinList); addSwapCalcEvnt()}); //Funciona OK
 });
 
 // Pendientes:
-// Desarrollar faucet (timeout y 100 usdt c/24hsq) y sistemma de balances.
+// Desarrollar faucet (timeout y 100 usdt c/24hs)
+// Habilitar calculo de from a to y de to a from (actualmente solo es de from a to).
 // Desarrollar sistema staking.
-// Vincular submit al sistema de balances.
+// Ver alternativa array.find para forEach y for...of
+// Organizar codigo!

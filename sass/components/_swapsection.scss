@@ -9,67 +9,78 @@
     width: 100%;
     height: calc(100vh - 6rem);
     position: relative;
-    top: 6rem;
-    padding: 1rem;
 
-    h2 {
-        font-size: 3rem;
-        margin: 2.5rem;
-        position: absolute;
-        top: 6rem;
-
-        text-align: center;
-    }
-
-    .swapContainer {
+    .wrapper {
+        position: relative;
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
         align-items: center;
-        gap: 2.5rem;
-
-        padding: 3rem;
-        width: max-content;
-        height: max-content;
-        background-color: abs.color('main-blue');
-        border-radius: 2rem;
-    
-        font-size: 1.6rem;
-
-        div {
-            display: flex;
-            flex-direction: column;
-
+        width: 100%;
+        height: 100vh;
+        padding: 1rem;
+        gap: 4rem;
+        
+        h2 {
+            font-size: 3rem;
+            margin: 8rem auto 3rem;
+            position: relative;
             width: 100%;
-            gap: 1rem;
 
-            select, input {
-                padding: .5rem;
-                border-radius: 1rem;
-                color: abs.color('main-blue');
-                text-align: center;
-
-                &:focus-visible {
-                    outline: 0;
-                }
-
-                &:hover {
-                    outline: .1rem solid abs.color('pink-detail');
-                }
-            }
+            text-align: center;
         }
 
-        .swapBtn {
+        .swapContainer {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            gap: 2.5rem;
+
+            padding: 3rem;
             width: max-content;
-            border-radius: 5rem;
-            padding: 1rem 1.5rem;
-            background-color: abs.color('pink-detail');
+            margin-bottom: auto;
+            height: max-content;
+            background-color: abs.color('main-blue');
+            border-radius: 2rem;
+        
+            font-size: 1.6rem;
 
-            color: abs.color('plainwhite');
+            div {
+                display: flex;
+                flex-direction: column;
 
-            &:hover {
-                cursor: pointer;
+                width: 100%;
+                gap: 1rem;
+
+                select, input {
+                    padding: .5rem;
+                    border-radius: 1rem;
+                    color: abs.color('main-blue');
+                    text-align: center;
+
+                    &:focus-visible {
+                        outline: 0;
+                    }
+
+                    &:hover {
+                        outline: .1rem solid abs.color('pink-detail');
+                    }
+                }
+            }
+
+            .swapBtn {
+                width: max-content;
+                border-radius: 5rem;
+                padding: 1rem 1.5rem;
+                background-color: abs.color('pink-detail');
+
+                color: abs.color('plainwhite');
+
+                &:hover {
+                    cursor: pointer;
+                }
             }
         }
     }
+        
 }
