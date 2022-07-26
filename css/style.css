@@ -114,6 +114,18 @@ header ul {
 .section__starter .wrapper div .btnContainer button:hover::before {
   opacity: 1;
 }
+.section__starter .wrapper div .btnContainer button.faucetOff {
+  box-shadow: none;
+  color: #44525f;
+  text-shadow: none;
+  border: 0.125em solid #44525f;
+  border-radius: 3.125em;
+  background-color: transparent;
+  cursor: auto;
+}
+.section__starter .wrapper div .btnContainer button.faucetOff::before {
+  display: none;
+}
 .section__starter .wrapper img {
   width: 10rem;
   margin: auto 1rem;
@@ -142,6 +154,9 @@ header ul {
   border-radius: 50%;
   left: -1rem;
   position: relative;
+}
+.tapDown p {
+  font-size: 1.4rem;
 }
 
 .section__swap {

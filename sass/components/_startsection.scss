@@ -102,6 +102,20 @@
                             opacity: 1;
                         }
                     }
+
+                    &.faucetOff {
+                        box-shadow: none;
+                        color: darken(abs.color('altgrey'), 40%);
+                        text-shadow: none;
+                        border: 0.125em solid darken(abs.color('altgrey'), 40%);
+                        border-radius: 3.125em;
+                        background-color: transparent;
+                        cursor: auto;
+
+                        &::before {
+                            display: none;
+                        }
+                    }
                 }
             }
             
@@ -138,5 +152,9 @@
         border-radius: 50%;
         left: -1rem;
         position: relative;
+    }
+
+    p {
+        font-size: 1.4rem;
     }
 }
