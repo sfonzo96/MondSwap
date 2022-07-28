@@ -48,7 +48,7 @@ function addStakeUnstakeEvnt() {
             unstake(index);
         });
     });
-}
+};
 
 function stake(stakeBtnId) {
     criptocurrencies.forEach((criptocurrency, index) => {
@@ -70,7 +70,7 @@ function stake(stakeBtnId) {
         }
     });
     showStakedAmount();
-}
+};
 
 function unstake(unstakeBtnId) {
     stakedCriptocurrencies.forEach((criptocurrency, index) => {
@@ -144,8 +144,8 @@ function getCoin(selectedList) {
 function addSwapCalcEvnt() {
     fromAmountInput.removeAttribute('readonly')
     fromAmountInput.addEventListener('input', calcularSwap);
-    fromCoinList.addEventListener('change', calcularSwap)
-    toCoinList.addEventListener('change', calcularSwap)
+    fromCoinList.addEventListener('change', calcularSwap);
+    toCoinList.addEventListener('change', calcularSwap);
 } //Funciona OK
 
 function executeSwap(e) {
@@ -196,11 +196,13 @@ function calcularSwap() {
 } //Funcion OK
 
 function onLoadGetStoragedBalances() {
-    if (!JSON.parse(localStorage.getItem('criptocurrencies'))) {
+    if (!JSON.parse(localStorage.getItem('criptocurrencies')) && !JSON.parse(localStorage.getItem('stakedCriptocurrencies'))) {
         return
+    } else if (JSON.parse(localStorage.getItem('criptocurrencies')) && !JSON.parse(localStorage.getItem('stakedCriptocurrencies'))) {
+        criptocurrencies = JSON.parse(localStorage.getItem('criptocurrencies'));
     } else {
         criptocurrencies = JSON.parse(localStorage.getItem('criptocurrencies'));
-        stakedCriptocurrencies = JSON.parse(localStorage.getItem('stakedCriptocurrencies'))
+        stakedCriptocurrencies = JSON.parse(localStorage.getItem('stakedCriptocurrencies'));
     }
 } //Funciona OK
 
