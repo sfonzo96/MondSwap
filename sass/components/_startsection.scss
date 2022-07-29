@@ -24,7 +24,7 @@
             align-items: center;
             padding: 1rem;
             width: 100%;
-            gap: 4rem;
+            gap: 3rem;
     
             h1 {
                 font-size: 3.5rem;
@@ -82,9 +82,10 @@
                         content: "";
                         position: absolute;
                         background: abs.color('pink-detail');
-                        top: 100%;
-                        left: 0;
-                        width: 100%;
+                        inset: 0;
+                        margin: auto;
+                        top: 200%;
+                        width: 60%;
                         height: 100%;
                         
                         transform: perspective(1em) rotateX(40deg) scale(1, 0.25);

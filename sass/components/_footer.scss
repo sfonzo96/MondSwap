@@ -1,8 +1,17 @@
 @use '../abstracts/index' as abs;
 
 footer {
-    position: relative;
-
     margin-top: auto;
     width: 100%;
+    font-size: 1.2rem;
+
+    padding: 1rem 2rem;
+    .footer__div-sup {
+        display: flex;
+        justify-content: space-between;
+
+        img {
+            width: 5rem;
+        }
+    }
 }

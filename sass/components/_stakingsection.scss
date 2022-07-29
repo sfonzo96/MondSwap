@@ -32,6 +32,7 @@
         width: 95%;
         background-color: abs.color('main-blue');
         border-radius: 2rem;
+        font-size: 1.2rem;
 
         &> :not(:last-child) {
             border-bottom: .1rem solid abs.color('altgrey');
@@ -39,7 +40,7 @@
         
         .section__staking-row {
             display: grid;
-            grid-template-columns: repeat(5, 1fr);
+            grid-template-columns: repeat(4, 1fr);
             column-gap: .5rem;
             justify-items: center;
             align-items: center;
@@ -65,5 +66,29 @@
                 }
             }
         }
+        .stakeBtnContainer {
+            padding: auto;
+            width: 100%;
+            display: flex;
+            gap: auto;
+            justify-content: space-evenly;
+
+            .stakeBtn, .unstakeBtn {
+                /* padding: 1rem;  Algo lo sobreescribe o bloquea*/
+                flex-basis: 40%;
+                background: abs.color('background');
+                border-radius: .5rem;
+                border: solid .125em abs.color('pink-detail');
+                padding: .2rem;
+                color: abs.color('pink-detail');
+                
+                
+                &:hover {
+                    text-shadow: 0 0 0.125em abs.color('pink-detail');
+                    box-shadow: 0 0 0.125em abs.color('pink-detail'), 0 0 0.125em abs.color('pink-detail'), inset 0 0 0.125em abs.color('pink-detail'), inset 0 0 0.125em abs.color('pink-detail');
+                }
+            }
+        }
+
     } 
 }
