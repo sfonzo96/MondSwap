@@ -56,10 +56,30 @@ function stake(stakeBtnId) {
             let toStakeAmount = parseFloat(prompt(`How much ${criptocurrency.ticker} would you like to stake? Your currently balance is ${criptocurrency.balance + " " + criptocurrency.ticker}.`));
             /* isNaN(toStakeAmount)? console.log('is nan') : console.log('esta todo ok'); */
             if (toStakeAmount > criptocurrency.balance || toStakeAmount < 0 || isNaN(toStakeAmount)) {
-                alert("You can not stake more than you have! Or you've introduced a negative value");
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: "You can not stake more than you have! Or you've introduced a negative value",
+                  })
                 return
             } else {
-                let confirmStake = confirm(`Are you sure? You're about to stake ${toStakeAmount + " " + criptocurrency.ticker}. You'll be charged with a fee of ${toStakeAmount * 0.005}.`)
+                let confirmStake = Swal.fire({
+                                        title: `Are you sure? You're about to stake ${toStakeAmount + " " + criptocurrency.ticker}. You'll be charged with a fee of ${toStakeAmount * 0.005}.`,
+                                        text: "In case you want to revert this you'll have to pay a fee.",
+                                        icon: 'question',
+                                        showCancelButton: true,
+                                        confirmButtonColor: '#3085d6',
+                                        cancelButtonColor: '#d33',
+                                        confirmButtonText: 'Confirm stake'
+                                    }).then((result) => {
+                                        if (result.isConfirmed) {
+                                        Swal.fire(
+                                            'Done!',
+                                            `You've just staked ${toStakeAmount + " " + criptocurrency.ticker}`,
+                                            'success'
+                                        )
+                                        }
+                                    });
                 if (confirmStake) {
                     criptocurrency.balance -= toStakeAmount * (1 + 0.005);
                     stakedCriptocurrencies[index].balance += toStakeAmount;
@@ -78,10 +98,30 @@ function unstake(unstakeBtnId) {
             let offStakeAmount = parseFloat(prompt(`How much ${criptocurrency.ticker} would you like to unstake? Your currently staked balance is ${criptocurrency.balance + " " + criptocurrency.ticker}.`));
             console.log(offStakeAmount)
             if (offStakeAmount > criptocurrency.balance || offStakeAmount < 0 || isNaN(offStakeAmount)) {
-                alert("You can not unstake more than you have staked! Or you've introduced a negative value");
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: "You can not unstake more than you have! Or you've introduced a negative value",
+                  })
                 return
             } else {
-                let confirmUnstake = confirm(`Are you sure? You're about to unstake ${offStakeAmount + " " + criptocurrency.ticker}. You'll be charged with a fee of ${offStakeAmount * 0.005}.`)
+                let confirmUnstake = Swal.fire({
+                                        title: `Are you sure? You're about to unstake ${offStakeAmount + " " + criptocurrency.ticker}. You'll be charged with a fee of ${offStakeAmount * 0.005}.`,
+                                        text: "In case you want to revert this you'll have to pay a fee.",
+                                        icon: 'question',
+                                        showCancelButton: true,
+                                        confirmButtonColor: '#3085d6',
+                                        cancelButtonColor: '#d33',
+                                        confirmButtonText: 'Confirm unstake'
+                                    }).then((result) => {
+                                        if (result.isConfirmed) {
+                                        Swal.fire(
+                                            'Done!',
+                                            `You've just unstaked ${offStakeAmount + " " + criptocurrency.ticker}`,
+                                            'success'
+                                        )
+                                        }
+                                    });
                 if (confirmUnstake) {
                     criptocurrency.balance -= offStakeAmount;
                     criptocurrencies[index].balance += offStakeAmount * (1 - 0.005);
@@ -107,7 +147,7 @@ function faucetAdd() {
     faucetBtn.removeEventListener('click', faucetAdd);
     localStorage.setItem('criptocurrencies', JSON.stringify(criptocurrencies));
     const faucetTimeout = setTimeout(() => {faucetBtn.classList.remove("faucetOff"); faucetBtn.addEventListener('click', faucetAdd) }, 12 * 3600 * 1000);
-    alert("You got 100 USDT added to your balance. You'll be able to get another 100 USDT every 12 hours.");
+    Swal.fire("You got 100 USDT added to your balance. You'll be able to get another 100 USDT every 12 hours.");
 } //Funciona OK
 
 function resetFaucet() {
@@ -150,30 +190,50 @@ function addSwapCalcEvnt() {
 
 function executeSwap(e) {
     e.preventDefault();
-
-    if (confirm(`You are swapping ${fromAmount} ${fromSelected} for ${toAmount} ${toSelected}. Are you sure about it?`)) {
-        for (const currency of criptocurrencies) {
-            if (fromSelected == currency.ticker) {
-                if (currency.balance < fromAmount || fromAmount < 0) {
-                    alert("You can not swap more than you have! Or you've introduced a negative value"); 
-                    return; 
-                } else {
-                    currency.balance -= fromAmount;
+    
+    Swal.fire({
+        title: `You are swapping ${fromAmount} ${fromSelected} for ${toAmount} ${toSelected}. Are you sure about it?`,
+        text: "In case you want to revert this you'll have to pay a fee.",
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Confirm swap'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            for (const currency of criptocurrencies) {
+                if (fromSelected == currency.ticker) {
+                    if (currency.balance < fromAmount || fromAmount < 0) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: "You can not swap more than you have! Or you've introduced a negative value",
+                          })
+                          document.getElementById("form").reset();
+                        return; 
+                    } else {
+                        currency.balance -= fromAmount;
+                    }
                 }
             }
-        }
-
-        for (const currency of criptocurrencies) { 
-            if (toSelected == currency.ticker) {
-                currency.balance += toAmount;
+    
+            for (const currency of criptocurrencies) { 
+                if (toSelected == currency.ticker) {
+                    currency.balance += toAmount;
+                }
             }
+    
+            localStorage.setItem('criptocurrencies', JSON.stringify(criptocurrencies));
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'The swap was successful!',
+                showConfirmButton: false,
+                timer: 1500
+            });
         }
-
-        localStorage.setItem('criptocurrencies', JSON.stringify(criptocurrencies));
-
-        alert('The swap was successful!');
-        document.getElementById("form").reset();
-    }
+    })
+    document.getElementById("form").reset();
 } //Funciona OK
 
 function calcularSwap() { 
@@ -220,7 +280,8 @@ document.addEventListener('DOMContentLoaded', ()=> {
 });
 
 // Pendientes:
-// Modal dando aviso de 12hs de espera y de +100 usdt (por ahora hecho con alert).
+// Ver como reemplaazar prompt staking/unstaking
+// Luego del swap, quedan almacenadas las monedas seleccionadas y habilitado el input.
 // Ademas deshabilitar boton (listo) y mostrar temporizador en descuento en lugar del "Start now!". Get new date cuando se clickea faucet, al cargar DOM verificar si pasaron 12 hs, si no bloquear hasta que almacenada - new date = 12h.
 // Sistema de staking funcionando (solo resta y suma balances, muestra balance stakeado). Luego, en funcion del tiempo transcurrido ir sumando en de acuerdo a un apy ficticio (setInterval).
 // Orden de codigo?
