@@ -277,7 +277,7 @@ header ul {
        column-gap: 0.5rem;
   justify-items: center;
   align-items: center;
-  padding: 1rem auto;
+  padding: 1.5rem 0.5rem;
 }
 .section__staking .section__staking-app .section__staking-row .section__staking-col {
   width: 100%;
@@ -297,14 +297,13 @@ header ul {
   width: 2rem;
 }
 .section__staking .section__staking-app .stakeBtnContainer {
-  padding: auto;
   width: 100%;
   display: flex;
   gap: auto;
   justify-content: space-evenly;
 }
 .section__staking .section__staking-app .stakeBtnContainer .stakeBtn, .section__staking .section__staking-app .stakeBtnContainer .unstakeBtn {
-  /* padding: 1rem;  Algo lo sobreescribe o bloquea*/
+  padding: 1rem;
   flex-basis: 40%;
   background: #051C2C;
   border-radius: 0.5rem;

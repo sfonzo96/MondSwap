@@ -44,7 +44,7 @@
             column-gap: .5rem;
             justify-items: center;
             align-items: center;
-            padding: 1rem auto;
+            padding: 1.5rem .5rem;
 
             .section__staking-col {
                 width: 100%;
@@ -67,14 +67,13 @@
             }
         }
         .stakeBtnContainer {
-            padding: auto;
             width: 100%;
             display: flex;
             gap: auto;
             justify-content: space-evenly;
 
             .stakeBtn, .unstakeBtn {
-                /* padding: 1rem;  Algo lo sobreescribe o bloquea*/
+                padding: 1rem;
                 flex-basis: 40%;
                 background: abs.color('background');
                 border-radius: .5rem;

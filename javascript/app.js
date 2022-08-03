@@ -3,22 +3,27 @@ let toCoinList = document.getElementById('toCoinList');
 let form = document.getElementById('form');
 let fromAmountInput = document.getElementById('fromAmountInput');
 let toAmountInput = document.getElementById('toAmountInput');
-let faucetBtn = document.getElementById('faucetBtn');
+let faucetBtn = document.getElementById('faucetBtn'), faucetGives = 500;
 let resetBtn = document.getElementById('resetBtn');
 let stakeBtnList = document.querySelectorAll('.stakeBtn');
 let unstakeBtnList = document.querySelectorAll('.unstakeBtn');
 let stakedAmountPList = document.querySelectorAll('.stakedAmount');
-let recentProfitList = document.querySelectorAll('.recentProfit');
+let apyList = document.querySelectorAll('.apy');
 let faucetState = localStorage.getItem('faucetOff');
-let plusFeeMultiplier = 1.01, fee = 0.01;
 let fromSelected, toSelected, fromAmount, toAmount, fromPrice, toPrice;
+let stakingYieldInterval, msYieldPeriod = 1000 * 10, fee = 0.01;
+let plusFeeMultiplier = 1 + fee;
+let daysInAYear = 365, hoursInADay = 24, minutesInAnHour = 60;
 
 class Currency {
-    constructor(ticker,name,balance,price) {
+    constructor(ticker,name,balance,price,APY,initialStake,msStakeDate) {
         this.ticker = ticker;
         this.name = name;
         this.balance = balance;
         this.price = price;
+        this.APY = APY;
+        this.initialStake = initialStake;
+        this.msStakeDate = msStakeDate;
     }
 } //Funciona OK
 
@@ -31,16 +36,20 @@ let criptocurrencies = [
 ] //Funciona OK
 
 let stakedCriptocurrencies = [
-    new Currency('USDT', 'Tether USD', 0, 1), 
-    new Currency('BTC', 'Bitcoin', 0, 20150), 
-    new Currency('ETH', 'Ethereum', 0, 1130), 
-    new Currency('ADA', 'Cardano', 0, 0.46), 
-    new Currency('DOT', 'Polkadot', 0, 6.90)
+    new Currency('USDT', 'Tether USD', 0, 1, 7.1, 0, 0), 
+    new Currency('BTC', 'Bitcoin', 0, 20150, 3.3, 0, 0), 
+    new Currency('ETH', 'Ethereum', 0, 1130, 5.8, 0, 0), 
+    new Currency('ADA', 'Cardano', 0, 0.46, 4.9, 0, 0), 
+    new Currency('DOT', 'Polkadot', 0, 6.90, 10.2, 0, 0)
 ];
 
 function showStakedAmount() {
-    stakedAmountPList.forEach((paragraph, index) => paragraph.innerText = stakedCriptocurrencies[index].balance.toFixed(2));
+    stakedAmountPList.forEach((paragraph, index) => paragraph.innerText = stakedCriptocurrencies[index].balance.toFixed(4));
 }; //Funciona OK
+
+function loadAPYRates() {
+    apyList.forEach((apyP, index) => apyP.innerHTML = `${stakedCriptocurrencies[index].APY} %`);
+} //Funciona OK
 
 function addStakeUnstakeEvnt() {
     stakeBtnList.forEach((stakeBtn, index) => {
@@ -56,15 +65,21 @@ function addStakeUnstakeEvnt() {
     });
 };//Funciona OK
 
+function addYieldToBalance() {
+    stakedCriptocurrencies.forEach(stakedCurrency => {
+        let interestRate = stakedCurrency.APY / daysInAYear / hoursInADay / minutesInAnHour; // Calcula tasa de interés por minuto
+        stakedCurrency.balance += stakedCurrency.balance * interestRate;
+        showStakedAmount();
+    }) 
+} //Funciona OK
+
 function stake(stakeBtnId) {
     criptocurrencies.forEach((criptocurrency, index) => {
         if (stakeBtnId == index) {
-            let toStakeAmount = Swal.fire({
+            let addToStake = Swal.fire({
                                     title: `How much ${criptocurrency.ticker} would you like to stake? Your currently balance is ${criptocurrency.balance + " " + criptocurrency.ticker}.`,
                                     input: 'text',
-                                    inputAttributes: {
-                                        autocapitalize: 'off'
-                                    },
+                                    inputAttributes: {autocapitalize: 'off'},
                                     background: '#051C2C',
                                     color: '#fff',
                                     showCancelButton: true,
@@ -74,8 +89,8 @@ function stake(stakeBtnId) {
                                     cancelButtonColor: '#E93CAC',
                                 }).then((result) => {
                                     if (result.isConfirmed) {
-                                        toStakeAmount = parseFloat(result.value);
-                                        if (toStakeAmount * plusFeeMultiplier > criptocurrency.balance || toStakeAmount < 0 || isNaN(toStakeAmount)) {
+                                        addToStake = parseFloat(result.value);
+                                        if (addToStake * plusFeeMultiplier > criptocurrency.balance || addToStake < 0 || isNaN(addToStake)) {
                                             Swal.fire({
                                                 background: '#051C2C',
                                                 color: '#fff',
@@ -92,7 +107,7 @@ function stake(stakeBtnId) {
                                             let confirmStake = Swal.fire({
                                                                     background: '#051C2C',
                                                                     color: '#fff',
-                                                                    title: `Are you sure? You're about to stake ${toStakeAmount + " " + criptocurrency.ticker}. You'll be charged with a fee of ${toStakeAmount * fee}.`,
+                                                                    title: `Are you sure? You're about to stake ${addToStake + " " + criptocurrency.ticker}. You'll be charged with a fee of ${addToStake * fee}.`,
                                                                     text: "In case you want to revert this you'll have to pay a fee.",
                                                                     icon: 'question',
                                                                     iconColor: '#ABB8C3',
@@ -104,7 +119,7 @@ function stake(stakeBtnId) {
                                                                     if (result.isConfirmed) {
                                                                         Swal.fire({
                                                                             title: 'Done!',
-                                                                            text: `You've just staked ${toStakeAmount + " " + criptocurrency.ticker}`,
+                                                                            text: `You've just staked ${addToStake + " " + criptocurrency.ticker}`,
                                                                             icon: 'success',
                                                                             iconColor: '#00BCE1',
                                                                             background: '#051C2C',
@@ -117,10 +132,13 @@ function stake(stakeBtnId) {
                                                                     }
                                                                 });
                                             if (confirmStake) {
-                                                criptocurrency.balance -= toStakeAmount * plusFeeMultiplier;
-                                                stakedCriptocurrencies[index].balance += toStakeAmount;
-                                                localStorage.setItem('stakedCriptocurrencies', JSON.stringify(stakedCriptocurrencies));
-                                                localStorage.setItem('criptocurrencies', JSON.stringify(criptocurrencies));
+                                                stakedCriptocurrencies[index].initialStake = addToStake + stakedCriptocurrencies[index].balance;
+                                                criptocurrency.balance -= addToStake * plusFeeMultiplier;
+                                                stakedCriptocurrencies[index].balance = stakedCriptocurrencies[index].initialStake;
+                                                stakedCriptocurrencies[index].msStakeDate = new Date().getTime();
+                                                localStorage.setItem('stakedCriptocurrenciesLS', JSON.stringify(stakedCriptocurrencies));
+                                                localStorage.setItem('criptocurrenciesLS', JSON.stringify(criptocurrencies));
+                                                stakingYieldInterval = setInterval(addYieldToBalance, msYieldPeriod);
                                                 showStakedAmount();
                                             }
                                         }
@@ -128,13 +146,13 @@ function stake(stakeBtnId) {
                                 });
         }
     });   
-}; //Funciona OK pasé showStakedAmount dentro del ultimo condicional porque si no funcionaba instantaneamente al clickear (cuestion de asinconia?)
+}; //Funciona OK
 
 function unstake(unstakeBtnId) {
-    stakedCriptocurrencies.forEach((criptocurrency, index) => {
+    stakedCriptocurrencies.forEach((stakedCriptocurrency, index) => {
         if (unstakeBtnId == index) {
-            let offStakeAmount = Swal.fire({
-                                    title: `How much ${criptocurrency.ticker} would you like to unstake? Your currently staked balance is ${criptocurrency.balance + " " + criptocurrency.ticker}.`,
+            let offStake = Swal.fire({
+                                    title: `How much ${stakedCriptocurrency.ticker} would you like to unstake? Your currently staked balance is ${stakedCriptocurrency.balance + " " + stakedCriptocurrency.ticker}.`,
                                     input: 'text',
                                     inputAttributes: {
                                     autocapitalize: 'off'
@@ -148,8 +166,8 @@ function unstake(unstakeBtnId) {
                                     cancelButtonColor: '#E93CAC',
                                 }).then((result) => {
                                     if (result.isConfirmed) {
-                                        offStakeAmount = parseFloat(result.value);
-                                        if (offStakeAmount > criptocurrency.balance || offStakeAmount < 0 || isNaN(offStakeAmount) || offStakeAmount * fee > criptocurrencies[index].balance) {
+                                        offStake = parseFloat(result.value);
+                                        if (offStake > stakedCriptocurrency.balance || offStake < 0 || isNaN(offStake) || offStake * fee > criptocurrencies[index].balance) {
                                             Swal.fire({
                                                 background: '#051C2C',
                                                 color: '#fff',
@@ -164,7 +182,7 @@ function unstake(unstakeBtnId) {
                                             return
                                         } else {
                                             let confirmUnstake = Swal.fire({
-                                                                    title: `Are you sure? You're about to unstake ${offStakeAmount + " " + criptocurrency.ticker}. You'll be charged with a fee of ${offStakeAmount * fee}.`,
+                                                                    title: `Are you sure? You're about to unstake ${offStake + " " + stakedCriptocurrency.ticker}. You'll be charged with a fee of ${offStake * fee}.`,
                                                                     text: "In case you want to revert this you'll have to pay a fee.",
                                                                     icon: 'question',
                                                                     iconColor: '#ABB8C3',
@@ -178,7 +196,7 @@ function unstake(unstakeBtnId) {
                                                                     if (result.isConfirmed) {
                                                                     Swal.fire({
                                                                         title: 'Done!',
-                                                                        text: `You've just unstaked ${offStakeAmount + " " + criptocurrency.ticker}`,
+                                                                        text: `You've just unstaked ${offStake + " " + stakedCriptocurrency.ticker}`,
                                                                         icon: 'success',
                                                                         iconColor: '#00BCE1',
                                                                         background: '#051C2C',
@@ -191,10 +209,13 @@ function unstake(unstakeBtnId) {
                                                                     }
                                                                 });
                                             if (confirmUnstake) {
-                                                criptocurrency.balance -= offStakeAmount;
-                                                criptocurrencies[index].balance += offStakeAmount * (1 - fee);
-                                                localStorage.setItem('stakedCriptocurrencies', JSON.stringify(stakedCriptocurrencies));
-                                                localStorage.setItem('criptocurrencies', JSON.stringify(criptocurrencies));
+                                                stakedCriptocurrency.balance -= offStake;
+                                                criptocurrencies[index].balance += offStake * (1 - fee);
+                                                stakedCriptocurrencies[index].initialStake = stakedCriptocurrency.balance;
+                                                stakedCriptocurrencies[index].msStakeDate = new Date().getTime();
+                                                localStorage.setItem('stakedCriptocurrenciesLS', JSON.stringify(stakedCriptocurrencies));
+                                                localStorage.setItem('criptocurrenciesLS', JSON.stringify(criptocurrencies));
+                                                stakingYieldInterval = setInterval(addYieldToBalance(index), msYieldPeriod);
                                                 showStakedAmount();
                                             }
                                         }
@@ -202,19 +223,19 @@ function unstake(unstakeBtnId) {
                                 });
         }
     });
-}; //Funciona OK pasé showStakedAmount dentro del ultimo condicional porque si no funcionaba instantaneamente al clickear (cuestion de asinconia?)
+}; //Funciona OK
 
 function faucetAdd() {
-    criptocurrencies[0].balance += 100;
+    criptocurrencies[0].balance += faucetGives;
     faucetBtn.classList.add('faucetOff');
     localStorage.setItem('faucetOff', true);
     faucetBtn.removeEventListener('click', faucetAdd);
-    localStorage.setItem('criptocurrencies', JSON.stringify(criptocurrencies));
+    localStorage.setItem('criptocurrenciesLS', JSON.stringify(criptocurrencies));
     const faucetTimeout = setTimeout(() => {faucetBtn.classList.remove("faucetOff"); faucetBtn.addEventListener('click', faucetAdd); localStorage.setItem('faucetOff', false)}, 12 * 3600 * 1000 );
     Swal.fire({
         icon: 'success',
         iconColor: '#00BCE1',
-        title:`You got 100 USDT added to your balance. You'll be able to get another 100 USDT every 12 hours.`,
+        title:`You got ${faucetGives} USDT added to your balance. You'll be able to get another ${faucetGives} USDT every 12 hours.`,
         background: '#051C2C',
         color: '#fff',
         showConfirmButton: false,
@@ -231,7 +252,12 @@ function resetFaucet() {
     criptocurrencies.forEach (currency => {
         currency.balance = 0;
     })
-    showStakedAmount(); 
+    stakedCriptocurrencies.forEach (currency => {
+        currency.balance = 0;
+        currency.initialStake = 0;
+        currency.msStakeDate = 0;
+    })
+    showStakedAmount();
 }; //Funciona OK
 
 function listCurrencies (element) {
@@ -298,7 +324,7 @@ function executeSwap(e) {
                 }
             }
     
-            localStorage.setItem('criptocurrencies', JSON.stringify(criptocurrencies));
+            localStorage.setItem('criptocurrenciesLS', JSON.stringify(criptocurrencies));
             Swal.fire({
                 position: 'center',
                 icon: 'success',
@@ -325,26 +351,46 @@ function calcularSwap() {
     })
     toAmount = fromAmount * fromPrice / toPrice;
     toAmountInput.value = toAmount;
-}; //Funcion OK
+}; //Funciona OK
 
-function onLoadGetStoragedBalances() {
-    if (!JSON.parse(localStorage.getItem('criptocurrencies')) && !JSON.parse(localStorage.getItem('stakedCriptocurrencies'))) {
+function restartStake() {
+    stakedCriptocurrencies.forEach(stakedCurrency => {
+        if (stakedCurrency.msStakeDate !== 0) {
+            console.log(stakedCurrency.msStakeDate);
+            let n = (new Date().getTime() - stakedCurrency.msStakeDate) / msYieldPeriod;
+            console.log(n);
+            console.log(stakedCurrency.APY);
+            let interestRate = stakedCurrency.APY / daysInAYear / hoursInADay / minutesInAnHour;
+            console.log(interestRate);
+            console.log(stakedCurrency.initialStake);
+            console.log(Math.pow(1 + interestRate, n));
+            stakedCurrency.balance = stakedCurrency.initialStake * Math.pow(1 + interestRate, n);
+            console.log(stakedCurrency.balance);
+            stakingYieldInterval = setInterval(addYieldToBalance, msYieldPeriod);
+        }  
+    })
+} //Funciona OK
+
+function getStoragedBalances() {
+    if (!JSON.parse(localStorage.getItem('criptocurrenciesLS')) && !JSON.parse(localStorage.getItem('stakedCriptocurrenciesLS'))) {
         return
-    } else if (JSON.parse(localStorage.getItem('criptocurrencies')) && !JSON.parse(localStorage.getItem('stakedCriptocurrencies'))) {
-        criptocurrencies = JSON.parse(localStorage.getItem('criptocurrencies'));
+    } else if (JSON.parse(localStorage.getItem('criptocurrenciesLS')) && !JSON.parse(localStorage.getItem('stakedCriptocurrenciesLS'))) {
+        criptocurrencies = JSON.parse(localStorage.getItem('criptocurrenciesLS'));
     } else {
-        criptocurrencies = JSON.parse(localStorage.getItem('criptocurrencies'));
-        stakedCriptocurrencies = JSON.parse(localStorage.getItem('stakedCriptocurrencies'));
+        criptocurrencies = JSON.parse(localStorage.getItem('criptocurrenciesLS'));
+        stakedCriptocurrencies = JSON.parse(localStorage.getItem('stakedCriptocurrenciesLS'));
+        restartStake();
     }
 }; //Funciona OK
 
-document.addEventListener('DOMContentLoaded', ()=> {
+document.addEventListener('DOMContentLoaded', () => {
     faucetState ? faucetBtn.classList.add('faucetOff') : null;
-    onLoadGetStoragedBalances();
+    getStoragedBalances();
     listCurrencies(fromCoinList);
     listCurrencies(toCoinList);
-    addStakeUnstakeEvnt();
+    loadAPYRates();
     showStakedAmount();
+    addStakeUnstakeEvnt();
     form.addEventListener('submit', executeSwap); //Funciona OK
     fromCoinList.addEventListener('change', () => {getCoin(fromCoinList)}); //Funciona OK
     toCoinList.addEventListener('change', () => {getCoin(toCoinList); addSwapCalcEvnt()}); //Funciona OK
@@ -358,5 +404,4 @@ document.addEventListener('DOMContentLoaded', ()=> {
 // En este caso se sumarian muchos eventos similares, no afectan funcionamiento pero quizas si recursos.
 // Ademas deshabilitar boton (listo) y mostrar temporizador en descuento en lugar del "Start now!". Get new date cuando se clickea faucet, al cargar DOM verificar si pasaron 12 hs, si no bloquear hasta que almacenada - new date = 12h.
 // Validar getCoin para que no tome como valor solo el de los options (childs). 
-// Sistema de staking funcionando (solo resta y suma balances, muestra balance stakeado). Luego, en funcion del tiempo transcurrido ir sumando en de acuerdo a un apy ficticio (setInterval).
-// Orden de codigo?
+// Orden de codigo: implementar type modules.
