@@ -10,6 +10,7 @@ const unstakeBtnList = document.querySelectorAll('.unstakeBtn');
 const stakedAmountPList = document.querySelectorAll('.stakedAmount');
 const apyList = document.querySelectorAll('.apy');
 const faucetState = localStorage.getItem('faucetOff');
+const pricesArr = [];
 let faucetGives = 500;
 let fromSelectedCoin, toSelectedCoin, fromAmount, toAmount, fromPrice, toPrice;
 let stakingYieldInterval, msYieldPeriod = 1000 * 5, fee = 0.01;
@@ -29,20 +30,37 @@ class Currency {
 } //Funciona OK
 
 let criptocurrencies = [
-    new Currency('USDT', 'Tether USD', 0, 1), 
-    new Currency('BTC', 'Bitcoin', 0, 20150), 
-    new Currency('ETH', 'Ethereum', 0, 1130), 
-    new Currency('ADA', 'Cardano', 0, 0.46), 
-    new Currency('DOT', 'Polkadot', 0, 6.90)
+    new Currency('USDT', 'Tether USD', 0, undefined), 
+    new Currency('WBTC', 'Wrapped Bitcoin', 0, undefined), 
+    new Currency('WETH', 'Wrapped Ethereum', 0, undefined), 
+    new Currency('GLMR', 'Glimmer', 0, undefined), 
+    new Currency('DOT', 'Polkadot', 0, undefined)
 ] //Funciona OK
 
 let stakedCriptocurrencies = [
-    new Currency('USDT', 'Tether USD', 0, 1, 7.1, 0, 0), 
-    new Currency('BTC', 'Bitcoin', 0, 20150, 3.3, 0, 0), 
-    new Currency('ETH', 'Ethereum', 0, 1130, 5.8, 0, 0), 
-    new Currency('ADA', 'Cardano', 0, 0.46, 4.9, 0, 0), 
-    new Currency('DOT', 'Polkadot', 0, 6.90, 10.2, 0, 0)
+    new Currency('USDT', 'Tether USD', 0, undefined, 7.1, 0, 0), 
+    new Currency('WBTC', 'Wrapped Bitcoin', 0, undefined, 3.3, 0, 0), 
+    new Currency('WETH', 'Wrapped Ethereum', 0, undefined, 5.8, 0, 0), 
+    new Currency('GLMR', 'Glimmer', 0, undefined, 4.9, 0, 0), 
+    new Currency('DOT', 'Polkadot', 0, undefined, 10.2, 0, 0)
 ];
+
+function getPrices() {
+    const url = 'https://min-api.cryptocompare.com/data/price?fsym=USDT&tsyms=USDT,WBTC,WETH,GLMR,DOT';
+    fetch(url)
+    .then(response => response.json())
+    .then(pricesObj => Object.values(pricesObj))
+    .then(pricesArr => logPrices(pricesArr));
+}
+
+function logPrices(pricesArr) {
+    criptocurrencies.forEach((currency, index) =>
+    currency.price = (pricesArr[index]**(-1)).toFixed(8)
+    );
+    stakedCriptocurrencies.forEach((currency, index) =>
+    currency.price = (pricesArr[index]**(-1)).toFixed(8)
+    );
+};
 
 function showStakedAmount() {
     stakedAmountPList.forEach((paragraph, index) => paragraph.innerText = stakedCriptocurrencies[index].balance.toFixed(4));
@@ -77,80 +95,79 @@ function addYieldToBalance() {
 function stake(stakeBtnId) {
     criptocurrencies.forEach((criptocurrency, index) => {
         if (stakeBtnId == index) {
-            let addToStake = Swal.fire({
-                                title: `How much ${criptocurrency.ticker} would you like to stake? Your currently balance is ${criptocurrency.balance.toFixed(8) + " " + criptocurrency.ticker}.`,
-                                input: 'text',
-                                inputAttributes: {autocapitalize: 'off'},
-                                background: '#051C2C',
-                                color: '#fff',
-                                showCancelButton: true,
-                                confirmButtonText: 'Stake',
-                                confirmButtonColor: '#00BCE1',
-                                cancelButtonText: "Cancel",
-                                cancelButtonColor: '#E93CAC',
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    addToStake = parseFloat(result.value);
-                                    if (addToStake * plusFeeMultiplier > criptocurrency.balance || addToStake < 0 || isNaN(addToStake)) {
-                                        Swal.fire({
-                                            background: '#051C2C',
-                                            color: '#fff',
-                                            icon: 'error',
-                                            iconColor: '#E93CAC',
-                                            title: 'Oops...',
-                                            text: "You can not stake an amount greater than your balance, you've introduced an invalid value or your balance is not enough to pay the fee (1 % of the amount)",
-                                            showConfirmButton: false,
-                                            timerProgressBar: true,
-                                            timer: 1500
-                                            })
-                                        return
-                                    } else {
-                                        Swal.fire({
-                                            background: '#051C2C',
-                                            color: '#fff',
-                                            title: `Are you sure? You're about to stake ${addToStake + " " + criptocurrency.ticker}. You'll be charged with a fee of ${addToStake * fee + " " + criptocurrency.ticker}.`,
-                                            text: "In case you want to revert this you'll have to pay a fee.",
-                                            icon: 'question',
-                                            iconColor: '#ABB8C3',
-                                            showCancelButton: true,
-                                            confirmButtonColor: '#00BCE1',
-                                            cancelButtonColor: '#E93CAC',
-                                            confirmButtonText: 'Confirm stake'
-                                        }).then((result) => {
-                                            if (result.isConfirmed) {
-                                                Swal.fire({
-                                                    title: 'Done!',
-                                                    text: `You've just staked ${addToStake + " " + criptocurrency.ticker}`,
-                                                    icon: 'success',
-                                                    iconColor: '#00BCE1',
-                                                    background: '#051C2C',
-                                                    color: '#fff',
-                                                    showConfirmButton: false,
-                                                    timerProgressBar: true,
-                                                    position: 'center',
-                                                    timer: 1500
-                                                })
-                                                return true;
-                                            } else {
-                                                return false;
-                                            }
-                                        }).then(result => {
-                                            if (result) {
-                                                clearInterval(stakingYieldInterval);
-                                                console.log('entro al confirmStake');
-                                                stakedCriptocurrencies[index].initialStake = addToStake + stakedCriptocurrencies[index].balance;
-                                                criptocurrency.balance -= addToStake * plusFeeMultiplier;
-                                                stakedCriptocurrencies[index].balance = stakedCriptocurrencies[index].initialStake;
-                                                stakedCriptocurrencies[index].msStakeDate = new Date().getTime();
-                                                localStorage.setItem('stakedCriptocurrenciesLS', JSON.stringify(stakedCriptocurrencies));
-                                                localStorage.setItem('criptocurrenciesLS', JSON.stringify(criptocurrencies));
-                                                stakingYieldInterval = setInterval(addYieldToBalance, msYieldPeriod);
-                                                showStakedAmount();
-                                            }
-                                        });
-                                    }
-                                }
-                            });
+            Swal.fire({
+                title: `How much ${criptocurrency.ticker} would you like to stake? Your currently balance is ${criptocurrency.balance.toFixed(8) + " " + criptocurrency.ticker}.`,
+                input: 'text',
+                inputAttributes: {autocapitalize: 'off'},
+                background: '#051C2C',
+                color: '#fff',
+                showCancelButton: true,
+                confirmButtonText: 'Stake',
+                confirmButtonColor: '#00BCE1',
+                cancelButtonText: "Cancel",
+                cancelButtonColor: '#E93CAC',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    let addToStake = parseFloat(result.value);
+                    if (addToStake * plusFeeMultiplier > criptocurrency.balance || addToStake < 0 || isNaN(addToStake)) {
+                        Swal.fire({
+                            background: '#051C2C',
+                            color: '#fff',
+                            icon: 'error',
+                            iconColor: '#E93CAC',
+                            title: 'Oops...',
+                            text: "You can not stake an amount greater than your balance, you've introduced an invalid value or your balance is not enough to pay the fee (1 % of the amount)",
+                            showConfirmButton: false,
+                            timerProgressBar: true,
+                            timer: 1500
+                            })
+                        return
+                    } else {
+                        Swal.fire({
+                            background: '#051C2C',
+                            color: '#fff',
+                            title: `Are you sure? You're about to stake ${addToStake + " " + criptocurrency.ticker}. You'll be charged with a fee of ${addToStake * fee + " " + criptocurrency.ticker}.`,
+                            text: "In case you want to revert this you'll have to pay a fee.",
+                            icon: 'question',
+                            iconColor: '#ABB8C3',
+                            showCancelButton: true,
+                            confirmButtonColor: '#00BCE1',
+                            cancelButtonColor: '#E93CAC',
+                            confirmButtonText: 'Confirm stake'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                Swal.fire({
+                                    title: 'Done!',
+                                    text: `You've just staked ${addToStake + " " + criptocurrency.ticker}`,
+                                    icon: 'success',
+                                    iconColor: '#00BCE1',
+                                    background: '#051C2C',
+                                    color: '#fff',
+                                    showConfirmButton: false,
+                                    timerProgressBar: true,
+                                    position: 'center',
+                                    timer: 1500
+                                })
+                                return true;
+                            } else {
+                                return false;
+                            }
+                        }).then(result => {
+                            if (result) {
+                                clearInterval(stakingYieldInterval);
+                                stakedCriptocurrencies[index].initialStake = addToStake + stakedCriptocurrencies[index].balance;
+                                criptocurrency.balance -= addToStake * plusFeeMultiplier;
+                                stakedCriptocurrencies[index].balance = stakedCriptocurrencies[index].initialStake;
+                                stakedCriptocurrencies[index].msStakeDate = new Date().getTime();
+                                localStorage.setItem('stakedCriptocurrenciesLS', JSON.stringify(stakedCriptocurrencies));
+                                localStorage.setItem('criptocurrenciesLS', JSON.stringify(criptocurrencies));
+                                stakingYieldInterval = setInterval(addYieldToBalance, msYieldPeriod);
+                                showStakedAmount();
+                            }
+                        });
+                    }
+                }
+            });
         }
     });   
 }; //Funciona OK
@@ -218,7 +235,6 @@ function unstake(unstakeBtnId) {
                                         }).then(result => {
                                             if (result) {
                                                 clearInterval(stakingYieldInterval);
-                                                console.log('entro al confirm unstake')
                                                 stakedCriptocurrency.balance -= offStake;
                                                 criptocurrencies[index].balance += offStake * (1 - fee);
                                                 stakedCriptocurrencies[index].initialStake = stakedCriptocurrency.balance;
@@ -391,6 +407,7 @@ function getStoragedBalances() {
 
 document.addEventListener('DOMContentLoaded', () => {
     faucetState ? faucetBtn.classList.add('faucetOff') : null;
+    setInterval(() => getPrices(),1000 * 10);
     getStoragedBalances();
     listCurrencies(fromCoinList);
     listCurrencies(toCoinList);
@@ -405,9 +422,7 @@ document.addEventListener('DOMContentLoaded', () => {
 }); //Funciona OK
 
 // Pendientes:
-// Luego del swap, quedan almacenadas las monedas seleccionadas y habilitado el input. Arreglar.
-// Verificar tambien si cada vez que se ejecuta addSwapCalcEvent() (ante el cambio en toCoinList) se agrega evento que ejecuta calcularSwap.
-// En este caso se sumarian muchos eventos similares, no afectan funcionamiento pero quizas si recursos.
-// Ademas deshabilitar boton (listo) y mostrar temporizador en descuento en lugar del "Start now!". Get new date cuando se clickea faucet, al cargar DOM verificar si pasaron 12 hs, si no bloquear hasta que almacenada - new date = 12h.
+// Luego del swap, quedan almacenadas las monedas seleccionadas y habilitado el input. Arreglar (posibilidad de hacerlo com Promise).
+// Ademas de deshabilitar boton (listo), mostrar temporizador en descuento en lugar del "Start now!".
 // Validar getCoin para que no tome como valor solo el de los options (childs). 
 // Orden de codigo: implementar type modules.
