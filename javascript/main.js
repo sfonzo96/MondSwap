@@ -58,11 +58,11 @@ function logPrices(pricesArr) {
     criptocurrencies.forEach((currency, index) =>
     currency.price = (pricesArr[index]**(-1)).toFixed(8)
     );
-    localStorage.setItem('criptocurrenciesLS', criptocurrencies);
+    localStorage.setItem('criptocurrenciesLS', JSON.stringify(criptocurrencies));
     stakedCriptocurrencies.forEach((currency, index) =>
     currency.price = (pricesArr[index]**(-1)).toFixed(8)
     );
-    localStorage.setItem('stakedCriptocurrenciesLS', stakedCriptocurrencies);
+    localStorage.setItem('stakedCriptocurrenciesLS', JSON.stringify(stakedCriptocurrencies));
 };
 
 function showStakedAmount() {
