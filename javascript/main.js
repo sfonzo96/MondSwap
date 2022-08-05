@@ -54,12 +54,15 @@ function getPrices() {
 }
 
 function logPrices(pricesArr) {
+    console.log('hi bro')
     criptocurrencies.forEach((currency, index) =>
     currency.price = (pricesArr[index]**(-1)).toFixed(8)
     );
+    localStorage.setItem('criptocurrenciesLS', criptocurrencies);
     stakedCriptocurrencies.forEach((currency, index) =>
     currency.price = (pricesArr[index]**(-1)).toFixed(8)
     );
+    localStorage.setItem('stakedCriptocurrenciesLS', stakedCriptocurrencies);
 };
 
 function showStakedAmount() {
@@ -407,6 +410,7 @@ function getStoragedBalances() {
 
 document.addEventListener('DOMContentLoaded', () => {
     faucetState ? faucetBtn.classList.add('faucetOff') : null;
+    getPrices();
     setInterval(() => getPrices(),1000 * 10);
     getStoragedBalances();
     listCurrencies(fromCoinList);
