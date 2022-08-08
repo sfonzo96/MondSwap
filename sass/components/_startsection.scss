@@ -1,15 +1,15 @@
 @use '../abstracts/index' as abs;
 
 .section__starter {
-    width: 100%;
-    height: calc(100vh - 6rem);
     position: relative;
-
+    
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-
+    
+    width: 100%;
+    height: calc(100vh - 7rem);
     .wrapper {
         height: 100vh;
         position: relative;
@@ -72,7 +72,6 @@
                     color: abs.color('pink-detail');
                     font-size: 2rem;
                     text-shadow: 0 0 0.45em abs.color('pink-detail');
-
                     
                     cursor: pointer;
                     

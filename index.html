@@ -11,21 +11,27 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a4c8bd0e80.js" crossorigin="anonymous"></script>
 </head>
 <body>
-    <header>
-        <div>
+    <header id="headerBar">
+        <div class="header__logo-container">
             <img src="./assets/Sustracción 2.svg" alt="MondSwap logo">
             <p>MondSwap</p>
         </div>
         <nav>
-            <ul>
-                <li>Home</li>
-                <li>Swap</li>
-                <li>Staking</li>
-                <li>Contact</li>
+            <ul class="header__nav-ul hidden" id="navUl">
+                <li><a class="navLink" href="#startSection">Home</a></li>
+                <li><a class="navLink" href="#swapSection">Swap</a></li>
+                <li><a class="navLink" href="#stakingSection">Staking</a></li>
+                <li><a class="navLink" href="#">Contact</a></li>
             </ul>
         </nav>
+        <div class="header__nav-toggler" id="navToggler">
+            <span class="menuLine1 menuBar"></span>
+            <span class="menuLine2 menuBar"></span>
+            <span class="menuLine3 menuBar"></span>
+        </div>
     </header>
     <section class="section__starter" id="startSection">
         <div class="wrapper">
@@ -202,6 +208,7 @@
         <small></small>
     </footer>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="./javascript/navigation.js"></script>
     <script src="./javascript/main.js"></script>
 </body>
 </html>

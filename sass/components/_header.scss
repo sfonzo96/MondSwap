@@ -1,20 +1,23 @@
 @use '../abstracts/' as abs;
 
 header {
-    width: 100%;
-    display: flex;
-    background-color: abs.color('main-blue');
     position: sticky;
     top: 0;
     z-index: 10;
 
-    div {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: hsl(253, 54%, 18%);
+
+    .header__logo-container {
         display: flex;
         align-items: center;
         justify-content: flex-start;
 
-        width: 100%;
-        padding: 0.5rem 2rem;
+        width: max-content;
+        padding: 1rem 2rem;
 
         img {
             width: 5rem;
@@ -27,7 +30,93 @@ header {
         }
     }
 
-    ul {
+    nav {
+        height: 100%;
+        width: max-content; 
+        margin-right: 2rem;
+
+        .header__nav-ul {
+            display: flex;
+            gap: 5rem;
+        
+
+            font-size: 1.8rem;
+
+            a {
+                color: abs.color('plainwhite')
+            }
+        }
+    }
+
+    .header__nav-toggler {
         display: none;
+        width: 3rem;
+        height: 3rem;
+        position: absolute;
+        z-index: 9999;
+        right: 10%;
+
+        span {
+            display: block;
+            width: 100%;
+            height: .2rem;
+            background-color: abs.color('plainwhite');
+            transform-origin: 0 100%;
+            transition: all ease 300ms;
+
+            &.menuLine1.active {
+                top: 0;
+                transform: rotate(45deg) translate( 0, -4px);
+            }
+
+            &.menuLine2.active {
+                opacity: 0;
+                transform: translateX(-3rem);
+            }
+
+            &.menuLine3.active {
+                bottom: 0;
+                transform: rotate(-45deg) translate( 0, 4px);
+            }
+        }
+    }
+}
+
+.swal2-styled.swal2-confirm.swalBtnCustom , .swal2-styled.swal2-cancel.swalBtnCustom { 
+    text-shadow: black 0 0 5px;
+    font-size: 1.2rem;
+    font-weight: bold;
+};
+
+@media (max-width: 768px) {
+    header {
+
+        div p {
+            display: none;
+        }
+        
+        nav {
+            .header__nav-ul {
+                position: fixed;
+                inset: 0 0 0 30%;
+        
+                flex-direction: column;
+                padding: min(30vh, 10rem) min(10vh, 5rem);
+                background-color: hsl(192 76% 63% / 0.1);
+                backdrop-filter: blur(1rem);
+                transition: all ease 300ms;
+                
+                &.hidden {
+                    transform: translateX(100%);
+                }
+            }
+        }
+        
+        .header__nav-toggler {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            cursor: pointer;
+        }
     }
 }

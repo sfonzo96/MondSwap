@@ -54,14 +54,9 @@ function getPrices() {
 }
 
 function logPrices(pricesArr) {
-    console.log('hi bro')
-    criptocurrencies.forEach((currency, index) =>
-    currency.price = (pricesArr[index]**(-1)).toFixed(8)
-    );
+    criptocurrencies.forEach((currency, index) => currency.price = Number((pricesArr[index]**(-1)).toFixed(8)));
     localStorage.setItem('criptocurrenciesLS', JSON.stringify(criptocurrencies));
-    stakedCriptocurrencies.forEach((currency, index) =>
-    currency.price = (pricesArr[index]**(-1)).toFixed(8)
-    );
+    stakedCriptocurrencies.forEach((currency, index) => currency.price = Number((pricesArr[index]**(-1)).toFixed(8)));
     localStorage.setItem('stakedCriptocurrenciesLS', JSON.stringify(stakedCriptocurrencies));
 };
 
@@ -109,6 +104,7 @@ function stake(stakeBtnId) {
                 confirmButtonColor: '#00BCE1',
                 cancelButtonText: "Cancel",
                 cancelButtonColor: '#E93CAC',
+                customClass:{ confirmButton: 'swalBtnCustom', cancelButton: 'swalBtnCustom'}
             }).then((result) => {
                 if (result.isConfirmed) {
                     let addToStake = parseFloat(result.value);
@@ -122,8 +118,10 @@ function stake(stakeBtnId) {
                             text: "You can not stake an amount greater than your balance, you've introduced an invalid value or your balance is not enough to pay the fee (1 % of the amount)",
                             showConfirmButton: false,
                             timerProgressBar: true,
-                            timer: 1500
+                            timer: 1500,
+                            customClass:{ confirmButton: 'swalBtnCustom'}
                             })
+                            
                         return
                     } else {
                         Swal.fire({
@@ -136,7 +134,8 @@ function stake(stakeBtnId) {
                             showCancelButton: true,
                             confirmButtonColor: '#00BCE1',
                             cancelButtonColor: '#E93CAC',
-                            confirmButtonText: 'Confirm stake'
+                            confirmButtonText: 'Confirm stake',
+                            customClass:{ confirmButton: 'swalBtnCustom', cancelButton: 'swalBtnCustom'}
                         }).then((result) => {
                             if (result.isConfirmed) {
                                 Swal.fire({
@@ -189,6 +188,7 @@ function unstake(unstakeBtnId) {
                                 confirmButtonColor: '#00BCE1',
                                 cancelButtonText: "Cancel",
                                 cancelButtonColor: '#E93CAC',
+                                customClass:{ confirmButton: 'swalBtnCustom', cancelButton: 'swalBtnCustom'}
                             }).then((result) => {
                                 if (result.isConfirmed) {
                                     offStake = parseFloat(result.value);
@@ -325,7 +325,8 @@ function executeSwap(e) {
         cancelButtonColor: '#E93CAC',
         confirmButtonText: 'Confirm swap',
         showCancelButton: true,
-        cancelButtonText: 'Cancel'
+        cancelButtonText: 'Cancel',
+        customClass:{ confirmButton: 'swalBtnCustom', cancelButton: 'swalBtnCustom'}
     }).then((result) => {
         if (result.isConfirmed) {
             for (const currency of criptocurrencies) {

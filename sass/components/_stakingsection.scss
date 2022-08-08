@@ -1,15 +1,15 @@
 @use '../abstracts/index' as abs;
 
 .section__staking {
+    position: relative;
+
     display: flex;
     flex-direction: column;
+    justify-content: flex-start;
     align-items: center;
-    justify-content: center;
 
     width: 100%;
-    height: calc(100vh - 6rem);
-    position: relative;
-    top: 6rem;
+    height: calc(100vh - 7rem);
 
     h2 {
         font-size: 3rem;
