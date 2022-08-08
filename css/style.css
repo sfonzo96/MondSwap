@@ -206,34 +206,6 @@ header .header__nav-toggler span.menuLine3.active {
   margin: auto 1rem;
 }
 
-.tapDown {
-  align-self: flex-start;
-  display: flex;
-  width: -webkit-max-content;
-  width: -moz-max-content;
-  width: max-content;
-  position: absolute;
-  left: 2rem;
-  bottom: 2rem;
-  z-index: 9;
-  margin: auto 0;
-  color: #00BCE1;
-  transform: rotate(-90deg);
-  transform-origin: 0;
-}
-.tapDown::before {
-  content: "";
-  background-color: #E93CAC;
-  width: 1rem;
-  height: 1rem;
-  border-radius: 50%;
-  left: -1rem;
-  position: relative;
-}
-.tapDown p {
-  font-size: 1.4rem;
-}
-
 .section__swap {
   display: flex;
   flex-direction: column;

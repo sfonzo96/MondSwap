@@ -127,34 +127,3 @@
         }
     }
 }
-
-.tapDown {
-    align-self: flex-start;
-    display: flex;
-    width: max-content;
-
-    position: absolute;
-    left: 2rem;
-    bottom: 2rem;
-    z-index: 9;
-
-    margin: auto 0;
-
-    color: abs.color('main-cyan');
-    transform: rotate(-90deg);
-    transform-origin: 0;
-
-    &::before {
-        content: "";
-        background-color: abs.color('pink-detail');
-        width: 1rem;
-        height: 1rem;
-        border-radius: 50%;
-        left: -1rem;
-        position: relative;
-    }
-
-    p {
-        font-size: 1.4rem;
-    }
-}
