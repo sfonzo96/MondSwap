@@ -1,7 +1,7 @@
 @use '../abstracts/' as abs;
 
 header {
-    position: sticky;
+    position: fixed;
     top: 0;
     z-index: 10;
 
@@ -10,7 +10,7 @@ header {
     align-items: center;
     justify-content: space-between;
     background-color: hsl(253, 54%, 18%);
-
+    
     .header__logo-container {
         display: flex;
         align-items: center;
@@ -31,19 +31,36 @@ header {
     }
 
     nav {
-        height: 100%;
         width: max-content; 
         margin-right: 2rem;
 
         .header__nav-ul {
             display: flex;
+            align-items: center;
             gap: 5rem;
         
-
             font-size: 1.8rem;
+        }
 
+        li {
             a {
-                color: abs.color('plainwhite')
+                position: relative;
+                padding: 0 .5rem;
+    
+                &::after {
+                    content: "";
+                    height: .2rem;
+                    position: absolute;
+                    width: 0;
+                    left: 0;
+                    top: 2.5rem;
+                    background-color: abs.color('pink-detail');
+                    transition: width ease 300ms;
+                }
+    
+                &:hover::after {
+                    width: 100%; 
+                }
             }
         }
     }
@@ -97,13 +114,16 @@ header {
         
         nav {
             .header__nav-ul {
+                flex-direction: column;
+                align-items: flex-start;
+
                 position: fixed;
                 inset: 0 0 0 30%;
         
-                flex-direction: column;
-                padding: min(30vh, 10rem) min(10vh, 5rem);
+                padding: min(20vh, 15rem) min(10vh, 5rem);
                 background-color: hsl(192 76% 63% / 0.1);
                 backdrop-filter: blur(1rem);
+
                 transition: all ease 300ms;
                 
                 &.hidden {
@@ -118,5 +138,39 @@ header {
             justify-content: space-evenly;
             cursor: pointer;
         }
+    }
+}
+
+@media (min-width: 768px) {
+
+    li:nth-child(4) {
+        position: relative;
+        border-radius: 2rem;
+        padding: 1rem;
+        background-color: abs.color('pink-detail');
+        border: solid 1px abs.color('dark');
+        box-shadow: 0 0 0.3em abs.color('pink-detail'), 0 .4rem 0 0 darken(abs.color('pink-detail'), 30%);
+        -webkit-text-stroke: .03rem abs.color('background');
+
+        &:active {
+            top: .4rem;
+            box-shadow: 0 0 0.3rem abs.color('pink-detail');                    
+        }
+
+        &:hover {
+            background-color: darken(abs.color('pink-detail'),5%);
+
+            color: abs.color('main-blue');
+
+            a {
+            color: abs.color('main-blue');
+            }
+        }
+        
+        a:hover::after {
+            height: 0;
+            width: 0;
+        }
+
     }
 }

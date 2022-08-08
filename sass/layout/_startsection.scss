@@ -1,0 +1,114 @@
+@use '../abstracts/index' as abs;
+
+.section__starter {
+    position: relative;
+
+    width: 100%;
+    height: calc(100vh - 7rem);
+    margin-top: 7rem;
+    
+    .wrapper {
+        height: inherit;
+
+        &> div {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1rem;
+            width: 100%;
+            gap: 4rem;
+    
+            h1 {
+                font-size: 3.5rem;
+                position: relative;
+                margin: 2rem 0;
+    
+                &::before {
+                    content: "";
+                    height: 0.4375rem;
+                    width: 100%;
+                    position: absolute;
+                    top: 3.53rem;
+                    z-index: -1;
+                    background: abs.color('pink-detail');
+                }
+            }
+    
+            h2 {
+                font-size: 2rem;
+    
+                text-align: center;
+            }
+    
+            p {
+                font-size: 1.4rem;
+                text-align: center;
+            }
+            
+            .btnContainer {
+                display: flex;
+                justify-content: space-evenly;
+                width: 80%;
+
+                button {
+                    flex-basis: auto;
+                    position: relative;
+        
+                    margin: 1rem 0;
+                    width: 15rem;
+                    padding: 1rem 1.5rem;
+                    border-radius: 2rem;
+                    background-color: abs.color('pink-detail');
+                    box-shadow: 0 .4rem 0 0 darken(abs.color('pink-detail'), 30%);
+                    
+                    color: abs.color('plainwhite');
+                    -webkit-text-stroke: .03rem abs.color('background');
+                    font-size: 2rem;
+
+                    cursor: pointer;
+        
+                    &:hover {
+                        background-color: darken(abs.color('pink-detail'),5%);
+
+                        color: abs.color('main-blue');
+                    }
+
+                &:active {
+                    top:.4rem;
+                    box-shadow: none;
+                }
+                    &.faucetOff {
+                        box-shadow: none;
+                        color: darken(abs.color('altgrey'), 40%);
+                        text-shadow: none;
+                        border: 0.125em solid darken(abs.color('altgrey'), 40%);    
+                        background-color: abs.color('altgrey');
+                        cursor: auto;
+                        top:.4rem;
+                    }
+                }
+            }
+        }
+    
+        img {
+            width: 10rem;
+            margin: auto 1rem;
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .section__starter .wrapper > div .btnContainer {
+        justify-content: space-around;
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .section__starter .wrapper > div .btnContainer {
+        button {
+            width: 12rem;
+            padding: 0.5em 0;
+        }
+    }
+}

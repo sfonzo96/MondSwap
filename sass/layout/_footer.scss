@@ -1,0 +1,104 @@
+@use '../abstracts/index' as abs;
+
+footer {
+    margin-top: auto;
+    width: 100%;
+    height: auto;
+    font-size: 1.2rem;
+
+    padding: 1rem 2rem;
+
+    .footer__div-sup {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        align-items: center;
+        text-align: center;
+
+        h3 {
+            position: relative;
+            padding: 0 .2rem;
+
+            &::after {
+                content: "";
+                width: 100%;
+                height: .15rem;
+                position: absolute;
+                left: 0;
+                top: 1.5rem;
+                background-color: abs.color('pink-detail');
+            }
+        }
+
+
+        &> * {
+            height: 100%;
+        }
+
+        hr {
+            width: 60%;
+            height: .1rem;
+            border: none;
+            background-color: abs.color('alt-cyan');
+        }
+
+        .footer__nav {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+
+            ul {
+                display: flex;
+                flex-direction: column;
+                gap: 1.2rem
+            }
+        }
+
+        .footer__dev {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            width: max-content;
+            align-items: center;
+
+            h3 {
+            width: max-content;
+            }
+        }
+
+        .footer__contact {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+
+            a {
+                font-size: 1rem;
+
+                i {
+                    color: #00BCE1; 
+                    filter: drop-shadow(0 0 0.1rem #00BCE1);
+                }
+            }
+        }
+    }
+}
+
+@media (min-width: 768px) {
+    footer { 
+        height: 100%;
+        padding: 1rem 16rem;
+
+        .footer__div-sup {
+            height: 100%;
+            flex-direction: row;
+            justify-content: space-between;
+
+            hr {
+                display: block;
+                height: 80%;
+                width: .1rem;
+                filter: drop-shadow(0 0 0.25rem #00BCE1);
+            }
+        }
+    }
+}

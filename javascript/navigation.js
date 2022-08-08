@@ -17,14 +17,12 @@ navLinks.forEach(link => {
     link.addEventListener('click', toggleMenu)
 })
 
-
-
-
-navLinks[3].addEventListener('click', () => {
+navLinks[3].addEventListener('click', (e) => {
+    e.preventDefault();
     Swal.fire({
-        title: '¿Bugs o consultas?',
+        titleText: '¿Bugs o consultas?',
         html:
-          `<a href="https://www.linkedin.com/in/santiagofonzo/" target="_blank"><i class="fa-brands fa-linkedin fa-4x" style="color: #00BCE1; filter: drop-shadow(0 0 0.1rem #00BCE1);" alt='linkedIn link'></i></a>`,
+          `<br><h2>Podés encontrarme acá ↓</h2><br><a href="https://www.linkedin.com/in/santiagofonzo/" target="_blank"><i class="fa-brands fa-linkedin-in fa-4x" style="color: #00BCE1; filter: drop-shadow(0 0 0.1rem #00BCE1);" alt='linkedIn link'></i></a>`,
         focusConfirm: false,
         background: '#051C2C',
         color: '#fff',
@@ -34,5 +32,3 @@ navLinks[3].addEventListener('click', () => {
         customClass:{ confirmButton: 'swalBtnCustom'}
       })
 })
-
-

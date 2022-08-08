@@ -15,16 +15,18 @@
 </head>
 <body>
     <header id="headerBar">
-        <div class="header__logo-container">
-            <img src="./assets/Sustracción 2.svg" alt="MondSwap logo">
-            <p>MondSwap</p>
-        </div>
+        <a href="./index.html">
+            <div class="header__logo-container">
+                <img src="./assets/Sustracción 2.svg" alt="MondSwap logo">
+                <p>MondSwap</p>
+            </div>
+        </a>
         <nav>
             <ul class="header__nav-ul hidden" id="navUl">
                 <li><a class="navLink" href="#startSection">Home</a></li>
                 <li><a class="navLink" href="#swapSection">Swap</a></li>
                 <li><a class="navLink" href="#stakingSection">Staking</a></li>
-                <li><a class="navLink" href="#">Contact</a></li>
+                <li><a class="navLink" href="#">Contact me</a></li>
             </ul>
         </nav>
         <div class="header__nav-toggler" id="navToggler">
@@ -37,7 +39,7 @@
         <div class="wrapper">
             <div>
                 <h1>MondSwap</h1>
-                <h2>A testing dex for starters on Moonbeam Network!</h2>
+                <h2>A dex simulator for starters, on Moonbeam Network!</h2>
                 <p>
                     The easiest way to learn about DeFi, without risks!<br>
                     You'll be able to do swaps and staking.<br>
@@ -74,134 +76,140 @@
         </div>
     </section>
     <section class="section__staking" id="stakingSection">
-        <h2>Earn by staking!</h2>
-        <h3>Beware you're going to pay a fee of 1% of the amount for each transaction</h3>
-        <div class=section__staking-app id="section__staking-app">
-            <div class="section__staking-row">
-                <div class="section__staking-col firstOfClass">
-                    <img src="./assets/cryptoisologues/tether-usdt-logo.svg" alt="">
-                    <h4>USDT staking</h4>
-                </div>
-                <div class="section__staking-col">
-                    <h4>Staked USDT</h4>
-                    <p class="stakedAmount"></p>
-                </div>
-                <div class="section__staking-col">
-                    <h4>APY</h4>
-                    <p class="apy"></p>
-                </div>
-                <div class="section__staking-col">
-                    <h4>Stake/Unstake</h4>
-                    <div class="stakeBtnContainer">
-                        <button class="stakeBtn">Stake</button>
-                        <button class="unstakeBtn">Unstake</button>
+        <div class="wrapper">
+            <h2>Earn by staking!</h2>
+            <h3>Beware that you're going to pay a fee of 1% of the amount for each transaction, so you should always keep some coins free.</h3>
+            <div class=section__staking-app id="section__staking-app">
+                <div class="section__staking-row">
+                    <div class="section__staking-col firstOfClass">
+                        <img src="./assets/cryptoisologues/tether-usdt-logo.svg" alt="">
+                        <h4>USDT staking</h4>
                     </div>
-                </div> 
-            </div>
-            <div class="section__staking-row">
-                <div class="section__staking-col firstOfClass">
-                    <img src="./assets/cryptoisologues/wrapped-bitcoin-wbtc-logo.svg" alt="">
-                    <h4>WBTC staking</h4>
-                </div>
-                <div class="section__staking-col">
-                    <h4>Staked WBTC</h4>
-                    <p class="stakedAmount"></p>
-                </div>
-                <div class="section__staking-col">
-                    <h4>APY</h4>
-                    <p class="apy"></p>
-                </div>
-                <div class="section__staking-col">
-                    <h4>Stake/Unstake</h4>
-                    <div class="stakeBtnContainer">
-                        <button class="stakeBtn">Stake</button>
-                        <button class="unstakeBtn">Unstake</button>
+                    <div class="section__staking-col">
+                        <h4>Staked USDT</h4>
+                        <p class="stakedAmount"></p>
                     </div>
-                </div> 
-            </div>
-            <div class="section__staking-row">
-                <div class="section__staking-col firstOfClass">
-                    <img src="./assets/cryptoisologues/ethereum-eth-logo.svg" alt="">
-                    <h4>WETH staking</h4>
-                </div>
-                <div class="section__staking-col">
-                    <h4>Staked WETH</h4>
-                    <p class="stakedAmount"></p>
-                </div>
-                <div class="section__staking-col">
-                    <h4>APY</h4>
-                    <p class="apy"></p>
-                </div>
-                <div class="section__staking-col">
-                    <h4>Stake/Unstake</h4>
-                    <div class="stakeBtnContainer">
-                        <button class="stakeBtn">Stake</button>
-                        <button class="unstakeBtn">Unstake</button>
+                    <div class="section__staking-col">
+                        <h4>APY</h4>
+                        <p class="apy"></p>
                     </div>
-                </div> 
-            </div>
-            <div class="section__staking-row">
-                <div class="section__staking-col firstOfClass">
-                    <img src="./assets/cryptoisologues/glimmer-glmr-logo.svg" alt="">
-                    <h4>GLMR staking</h4>
+                    <div class="section__staking-col">
+                        <h4>Stake/Unstake</h4>
+                        <div class="stakeBtnContainer">
+                            <button class="stakeBtn">Stake</button>
+                            <button class="unstakeBtn">Unstake</button>
+                        </div>
+                    </div> 
                 </div>
-                <div class="section__staking-col">
-                    <h4>Staked GLMR</h4>
-                    <p class="stakedAmount"></p>
-                </div>
-                <div class="section__staking-col">
-                    <h4>APY</h4>
-                    <p class="apy"></p>
-                </div>
-                <div class="section__staking-col">
-                    <h4>Stake/Unstake</h4>
-                    <div class="stakeBtnContainer">
-                        <button class="stakeBtn">Stake</button>
-                        <button class="unstakeBtn">Unstake</button>
+                <div class="section__staking-row">
+                    <div class="section__staking-col firstOfClass">
+                        <img src="./assets/cryptoisologues/wrapped-bitcoin-wbtc-logo.svg" alt="">
+                        <h4>WBTC staking</h4>
                     </div>
-                </div> 
-            </div>
-            <div class="section__staking-row">
-                <div class="section__staking-col firstOfClass">
-                    <img src="./assets/cryptoisologues/polkadot-new-dot-logo.svg" alt="">
-                    <h4>xcDOT staking</h4>
-                </div>
-                <div class="section__staking-col">
-                    <h4>Staked xcDOT</h4>
-                    <p class="stakedAmount"></p>
-                </div>
-                <div class="section__staking-col">
-                    <h4>APY</h4>
-                    <p class="apy"></p>
-                </div>
-                <div class="section__staking-col">
-                    <h4>Stake/Unstake</h4>
-                    <div class="stakeBtnContainer">
-                        <button class="stakeBtn">Stake</button>
-                        <button class="unstakeBtn">Unstake</button>
+                    <div class="section__staking-col">
+                        <h4>Staked WBTC</h4>
+                        <p class="stakedAmount"></p>
                     </div>
-                </div> 
+                    <div class="section__staking-col">
+                        <h4>APY</h4>
+                        <p class="apy"></p>
+                    </div>
+                    <div class="section__staking-col">
+                        <h4>Stake/Unstake</h4>
+                        <div class="stakeBtnContainer">
+                            <button class="stakeBtn">Stake</button>
+                            <button class="unstakeBtn">Unstake</button>
+                        </div>
+                    </div> 
+                </div>
+                <div class="section__staking-row">
+                    <div class="section__staking-col firstOfClass">
+                        <img src="./assets/cryptoisologues/ethereum-eth-logo.svg" alt="">
+                        <h4>WETH staking</h4>
+                    </div>
+                    <div class="section__staking-col">
+                        <h4>Staked WETH</h4>
+                        <p class="stakedAmount"></p>
+                    </div>
+                    <div class="section__staking-col">
+                        <h4>APY</h4>
+                        <p class="apy"></p>
+                    </div>
+                    <div class="section__staking-col">
+                        <h4>Stake/Unstake</h4>
+                        <div class="stakeBtnContainer">
+                            <button class="stakeBtn">Stake</button>
+                            <button class="unstakeBtn">Unstake</button>
+                        </div>
+                    </div> 
+                </div>
+                <div class="section__staking-row">
+                    <div class="section__staking-col firstOfClass">
+                        <img src="./assets/cryptoisologues/glimmer-glmr-logo.svg" alt="">
+                        <h4>GLMR staking</h4>
+                    </div>
+                    <div class="section__staking-col">
+                        <h4>Staked GLMR</h4>
+                        <p class="stakedAmount"></p>
+                    </div>
+                    <div class="section__staking-col">
+                        <h4>APY</h4>
+                        <p class="apy"></p>
+                    </div>
+                    <div class="section__staking-col">
+                        <h4>Stake/Unstake</h4>
+                        <div class="stakeBtnContainer">
+                            <button class="stakeBtn">Stake</button>
+                            <button class="unstakeBtn">Unstake</button>
+                        </div>
+                    </div> 
+                </div>
+                <div class="section__staking-row">
+                    <div class="section__staking-col firstOfClass">
+                        <img src="./assets/cryptoisologues/polkadot-new-dot-logo.svg" alt="">
+                        <h4>xcDOT staking</h4>
+                    </div>
+                    <div class="section__staking-col">
+                        <h4>Staked xcDOT</h4>
+                        <p class="stakedAmount"></p>
+                    </div>
+                    <div class="section__staking-col">
+                        <h4>APY</h4>
+                        <p class="apy"></p>
+                    </div>
+                    <div class="section__staking-col">
+                        <h4>Stake/Unstake</h4>
+                        <div class="stakeBtnContainer">
+                            <button class="stakeBtn">Stake</button>
+                            <button class="unstakeBtn">Unstake</button>
+                        </div>
+                    </div> 
+                </div>
+    
             </div>
-
+            <button class="scrollDownBtn"></button>
+            <button class="scrollUpBtn"></button>
         </div>
-        <button class="scrollDownBtn"></button>
-        <button class="scrollUpBtn"></button>
     </section>
     <footer>
         <div class="footer__div-sup">
-            <div>
-                ASD
-            </div>
-            <div>
+            <div class="footer__nav">
+                <h3>Navega</h3>
                 <ul>
-                    <li>Home</li>
-                    <li>Swap</li>
-                    <li>Staking</li>
-                    <li>Contact</li>
+                    <li><a href="#startSection">Home</a></li>
+                    <li><a href="#swapSection">Swap</a></li>
+                    <li><a href="#stakeSection">Staking</a></li>
                 </ul>
             </div>
-            <div>
-                <img src="./assets/mswapisologosynth.svg" alt="">
+            <hr/>
+            <div class="footer__dev">
+                <h3>Santiago Fonzo</h3>
+                <p>Desarrollador front-end trainee</p>
+            </div>
+            <hr/>
+            <div class="footer__contact">
+                <h3>Contacto</h3>
+                <a href="https://www.linkedin.com/in/santiagofonzo/" target="_blank"><i class="fa-brands fa-linkedin fa-4x" alt='linkedIn link'></i></a>
             </div>
         </div>
         <small></small>
