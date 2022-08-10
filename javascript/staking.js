@@ -71,7 +71,7 @@ function stake(stakeBtnId) {
             Swal.fire({
                 title: `How much ${criptocurrency.ticker} would you like to stake? Your currently balance is ${criptocurrency.balance.toFixed(8) + " " + criptocurrency.ticker}.`,
                 input: 'text',
-                inputAttributes: {autocapitalize: 'off'},
+                inputAttributes: {autocapitalize: 'off', step: 'any'},
                 background: '#051C2C',
                 color: '#fff',
                 showCancelButton: true,
@@ -154,7 +154,7 @@ function unstake(unstakeBtnId) {
             let offStake = Swal.fire({
                                 title: `How much ${stakedCriptocurrency.ticker} would you like to unstake? Your currently staked balance is ${stakedCriptocurrency.balance + " " + stakedCriptocurrency.ticker}.`,
                                 input: 'text',
-                                inputAttributes: {autocapitalize: 'off'},
+                                inputAttributes: {autocapitalize: 'off', step:"any"},
                                 background: '#051C2C',
                                 color: '#fff',
                                 showCancelButton: true,
