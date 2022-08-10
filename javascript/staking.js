@@ -34,7 +34,7 @@ export function renderStakingApp(stakedCriptocurrencies) {
 export function showStakedAmount() {
     const stakedAmountPList = document.querySelectorAll('.stakedAmount');
     stakedAmountPList.forEach((paragraph, index) => paragraph.innerText = m.stakedCriptocurrencies[index].balance.toFixed(4));
-}; //Funciona OK
+};
 
 export function addStakeUnstakeEvnt() {
     const stakeBtnList = document.querySelectorAll('.stakeBtn');
@@ -50,22 +50,22 @@ export function addStakeUnstakeEvnt() {
             unstake(index);
         });
     });
-};//Funciona OK
+};
 
 export function loadAPYRates() {
     const apyList = document.querySelectorAll('.apy');
     apyList.forEach((apyP, index) => apyP.innerHTML = `${m.stakedCriptocurrencies[index].APY} %`);
-} //Funciona OK
+}
 
-export function addYieldToBalance() {
+function addYieldToBalance() {
     m.stakedCriptocurrencies.forEach(stakedCurrency => {
         let interestRate = stakedCurrency.APY / daysInAYear / hoursInADay / minutesInAnHour; // Calcula tasa de interés por minuto
         stakedCurrency.balance += stakedCurrency.balance * interestRate;
         showStakedAmount();
     }) 
-} //Funciona OK
+}
 
-export function stake(stakeBtnId) {
+function stake(stakeBtnId) {
     m.criptocurrencies.forEach((criptocurrency, index) => {
         if (stakeBtnId == index) {
             Swal.fire({
@@ -146,9 +146,9 @@ export function stake(stakeBtnId) {
             });
         }
     });   
-}; //Funciona OK
+};
 
-export function unstake(unstakeBtnId) {
+function unstake(unstakeBtnId) {
     m.stakedCriptocurrencies.forEach((stakedCriptocurrency, index) => {
         if (unstakeBtnId == index) {
             let offStake = Swal.fire({
@@ -227,7 +227,7 @@ export function unstake(unstakeBtnId) {
                             });
         }
     });
-}; //Funciona OK
+};
 
 export function resumeStake() {
     m.stakedCriptocurrencies.forEach(stakedCurrency => {
@@ -238,7 +238,7 @@ export function resumeStake() {
             stakingYieldInterval = setInterval(addYieldToBalance, msYieldPeriod);
         }  
     })
-} // Funciona OK
+};
 
 
 

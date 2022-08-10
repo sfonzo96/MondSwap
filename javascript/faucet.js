@@ -4,7 +4,7 @@ import * as st from './staking.js';
 export const faucetBtn = document.getElementById('faucetBtn');
 export const resetBtn = document.getElementById('resetBtn');
 export const faucetState = localStorage.getItem('faucetOff');
-export const faucetGives = 500;
+const faucetGives = 500;
 
 export function faucetAdd() {
     m.criptocurrencies[0].balance += faucetGives;
@@ -23,7 +23,7 @@ export function faucetAdd() {
         timerProgressBar: true,
         timer: 3000
     });
-}; //Funciona OK
+};
 
 export function resetFaucet() {
     localStorage.clear();
@@ -39,4 +39,4 @@ export function resetFaucet() {
         currency.msStakeDate = 0;
     })
     st.showStakedAmount();
-}; //Funciona OK
+};

@@ -3,13 +3,13 @@ import * as st from './staking.js';
 
 export const fromCoinList = document.getElementById('fromCoinList');
 export const toCoinList = document.getElementById('toCoinList');
-export const swap = document.getElementById('swap');
-export const fromAmountInput = document.getElementById('fromAmountInput');
-export const toAmountInput = document.getElementById('toAmountInput');
-export const swapBtn = document.querySelector('.swapBtn');
-export let fromSelectedCoin, toSelectedCoin, fromAmount, toAmount, fromPrice, toPrice, swapCanHappen;
+const swap = document.getElementById('swap');
+const fromAmountInput = document.getElementById('fromAmountInput');
+const toAmountInput = document.getElementById('toAmountInput');
+const swapBtn = document.querySelector('.swapBtn');
+let fromSelectedCoin, toSelectedCoin, fromAmount, toAmount, fromPrice, toPrice, swapCanHappen;
 
-export function getCoin(selectedList) {
+function getCoin(selectedList) {
     if (selectedList == fromCoinList) {
         if (selectedList.value != 'Pick your owned coin') {
             fromSelectedCoin = selectedList.value;
@@ -19,16 +19,16 @@ export function getCoin(selectedList) {
         toSelectedCoin = selectedList.value;
         return true;
     } else return;
-}; //Funciona OK
+};
 
-export function addSwapCalcEvnt() {
+function addSwapCalcEvnt() {
     fromAmountInput.removeAttribute('readonly')
     fromAmountInput.addEventListener('input', calcularSwap);
     fromCoinList.addEventListener('change', calcularSwap);
     toCoinList.addEventListener('change', calcularSwap);
-}; //Funciona OK
+};
 
-export function executeSwap(e) {
+function executeSwap(e) {
     e.preventDefault();
     if (swapCanHappen) {
         Swal.fire({
@@ -111,9 +111,9 @@ export function executeSwap(e) {
             timer: 3000
         })
     }  
-}; //Funciona OK
+};
 
-export function calcularSwap() {
+function calcularSwap() {
     let issue = false;
     getCoin(fromCoinList)? null : issue = true;
     getCoin(toCoinList)? null : issue? null: issue = true;
@@ -132,7 +132,7 @@ export function calcularSwap() {
             toAmountInput.value = toAmount.toFixed(8);
             swapCanHappen = true;
     } else swapCanHappen = false; 
-}; //Funciona OK
+};
 
 export function toInputChanges() {
     addSwapCalcEvnt();
