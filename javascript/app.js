@@ -10,12 +10,12 @@ const unstakeBtnList = document.querySelectorAll('.unstakeBtn');
 const stakedAmountPList = document.querySelectorAll('.stakedAmount');
 const apyList = document.querySelectorAll('.apy');
 const faucetState = localStorage.getItem('faucetOff');
+const swapBtn = document.querySelector('.swapBtn');
 const pricesArr = [];
-let faucetGives = 500;
-let fromSelectedCoin, toSelectedCoin, fromAmount, toAmount, fromPrice, toPrice;
-let stakingYieldInterval, msYieldPeriod = 1000 * 5, fee = 0.01;
-let plusFeeMultiplier = 1 + fee;
-let daysInAYear = 365, hoursInADay = 24, minutesInAnHour = 60;
+const faucetGives = 500;
+const daysInAYear = 365, hoursInADay = 24, minutesInAnHour = 60, msYieldPeriod = 1000 * 5, fee = 0.01, plusFeeMultiplier = 1 + fee;
+let fromSelectedCoin, toSelectedCoin, fromAmount, toAmount, fromPrice, toPrice, stakingYieldInterval, swapCanHappen;
+
 
 class Currency {
     constructor(ticker,name,balance,price,APY,initialStake,msStakeDate) {
@@ -27,7 +27,7 @@ class Currency {
         this.initialStake = initialStake;
         this.msStakeDate = msStakeDate;
     }
-} //Funciona OK
+}; //Funciona OK
 
 let criptocurrencies = [
     new Currency('USDT', 'Tether USD', 0, undefined), 
@@ -35,7 +35,7 @@ let criptocurrencies = [
     new Currency('WETH', 'Wrapped Ethereum', 0, undefined), 
     new Currency('GLMR', 'Glimmer', 0, undefined), 
     new Currency('DOT', 'Polkadot', 0, undefined)
-] //Funciona OK
+]; //Funciona OK
 
 let stakedCriptocurrencies = [
     new Currency('USDT', 'Tether USD', 0, undefined, 7.1, 0, 0), 
@@ -43,7 +43,7 @@ let stakedCriptocurrencies = [
     new Currency('WETH', 'Wrapped Ethereum', 0, undefined, 5.8, 0, 0), 
     new Currency('GLMR', 'Glimmer', 0, undefined, 4.9, 0, 0), 
     new Currency('DOT', 'Polkadot', 0, undefined, 10.2, 0, 0)
-];
+]; //Funciona OK
 
 function getPrices() {
     const url = 'https://min-api.cryptocompare.com/data/price?fsym=USDT&tsyms=USDT,WBTC,WETH,GLMR,DOT';
@@ -51,14 +51,14 @@ function getPrices() {
     .then(response => response.json())
     .then(pricesObj => Object.values(pricesObj))
     .then(pricesArr => logPrices(pricesArr));
-}
+}; //Funciona OK
 
 function logPrices(pricesArr) {
     criptocurrencies.forEach((currency, index) => currency.price = Number((pricesArr[index]**(-1)).toFixed(8)));
     localStorage.setItem('criptocurrenciesLS', JSON.stringify(criptocurrencies));
     stakedCriptocurrencies.forEach((currency, index) => currency.price = Number((pricesArr[index]**(-1)).toFixed(8)));
     localStorage.setItem('stakedCriptocurrenciesLS', JSON.stringify(stakedCriptocurrencies));
-};
+}; //Funciona OK
 
 function showStakedAmount() {
     stakedAmountPList.forEach((paragraph, index) => paragraph.innerText = stakedCriptocurrencies[index].balance.toFixed(4));
@@ -121,7 +121,6 @@ function stake(stakeBtnId) {
                             timer: 1500,
                             customClass:{ confirmButton: 'swalBtnCustom'}
                             })
-                            
                         return
                     } else {
                         Swal.fire({
@@ -301,8 +300,16 @@ function listCurrencies (element) {
 }; //Funciona OK
 
 function getCoin(selectedList) {
-    selectedList == fromCoinList? fromSelectedCoin = selectedList.value : selectedList == toCoinList? toSelectedCoin = selectedList.value : null;
-}; //Funciona OK // Validar para que no tome como valor el default del elemento select sino el de los options (childs).
+    if (selectedList == fromCoinList) {
+        if (selectedList.value != 'Pick your owned coin') {
+            fromSelectedCoin = selectedList.value;
+            return true;
+        }
+    } else if (selectedList.value != 'Pick the coin you want') {
+        toSelectedCoin = selectedList.value;
+        return true;
+    } else return;
+}; //Funciona OK
 
 function addSwapCalcEvnt() {
     fromAmountInput.removeAttribute('readonly')
@@ -313,80 +320,112 @@ function addSwapCalcEvnt() {
 
 function executeSwap(e) {
     e.preventDefault();
-    
-    Swal.fire({
-        title: `You are swapping ${fromAmount.toFixed(8)} ${fromSelectedCoin} for ${toAmount.toFixed(8)} ${toSelectedCoin}. Are you sure about it?`,
-        text: "In case you want to revert this you'll have to pay another fee.",
-        icon: 'question',
-        iconColor: '#ABB8C3',
-        background: '#051C2C',
-        color: '#fff',
-        confirmButtonColor: '#00BCE1',
-        cancelButtonColor: '#E93CAC',
-        confirmButtonText: 'Confirm swap',
-        showCancelButton: true,
-        cancelButtonText: 'Cancel',
-        customClass:{ confirmButton: 'swalBtnCustom', cancelButton: 'swalBtnCustom'}
-    }).then((result) => {
-        if (result.isConfirmed) {
-            for (const currency of criptocurrencies) {
-                if (fromSelectedCoin == currency.ticker) {
-                    if (currency.balance < fromAmount * plusFeeMultiplier|| fromAmount < 0) {
-                        Swal.fire({
-                            icon: 'error',
-                            iconColor: '#E93CAC',
-                            title: 'Oops...',
-                            text: "You can not swap more than you have, you've introduced an invalid value or your left balance is not enough to pay the fees (1 % of the amount)",
-                            background: '#051C2C',
-                            color: '#fff',
-                            showConfirmButton: false,
-                            timerProgressBar: true,
-                            timer: 1500
-                        })
-                          document.getElementById("form").reset();
-                        return; 
-                    } else {
-                        currency.balance -= fromAmount * plusFeeMultiplier;
+    if (swapCanHappen) {
+        Swal.fire({
+            title: `You are swapping ${fromAmount.toFixed(8)} ${fromSelectedCoin} for ${toAmount.toFixed(8)} ${toSelectedCoin}. Are you sure about it?`,
+            text: "In case you want to revert this you'll have to pay another fee.",
+            icon: 'question',
+            iconColor: '#ABB8C3',
+            background: '#051C2C',
+            color: '#fff',
+            confirmButtonColor: '#00BCE1',
+            cancelButtonColor: '#E93CAC',
+            confirmButtonText: 'Confirm swap',
+            showCancelButton: true,
+            cancelButtonText: 'Cancel',
+            customClass:{ confirmButton: 'swalBtnCustom', cancelButton: 'swalBtnCustom'}
+        }).then((result) => {
+            if (result.isConfirmed) {
+                for (const currency of criptocurrencies) {
+                    if (fromSelectedCoin == currency.ticker) {
+                        if (currency.balance < fromAmount * plusFeeMultiplier|| fromAmount < 0) {
+                            Swal.fire({
+                                icon: 'error',
+                                iconColor: '#E93CAC',
+                                title: 'Oops...',
+                                text: "You can not swap more than you have, you've introduced an invalid value or your left balance is not enough to pay the fees (1 % of the amount)",
+                                background: '#051C2C',
+                                color: '#fff',
+                                showConfirmButton: false,
+                                timerProgressBar: true,
+                                timer: 1500
+                            })
+                            document.getElementById("form").reset();
+                            return; 
+                        } else {
+                            currency.balance -= fromAmount * plusFeeMultiplier;
+                        }
                     }
                 }
-            }
-    
-            for (const currency of criptocurrencies) { 
-                if (toSelectedCoin == currency.ticker) {
-                    currency.balance += toAmount;
+        
+                for (const currency of criptocurrencies) { 
+                    if (toSelectedCoin == currency.ticker) {
+                        currency.balance += toAmount;
+                    }
                 }
+        
+                localStorage.setItem('criptocurrenciesLS', JSON.stringify(criptocurrencies));
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    iconColor: '#00BCE1',
+                    title: 'The swap was successful!',
+                    background: '#051C2C',
+                    color: '#fff',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
             }
-    
-            localStorage.setItem('criptocurrenciesLS', JSON.stringify(criptocurrencies));
-            Swal.fire({
-                position: 'center',
-                icon: 'success',
-                iconColor: '#00BCE1',
-                title: 'The swap was successful!',
-                background: '#051C2C',
-                color: '#fff',
-                showConfirmButton: false,
-                timer: 1500
-            });
-        }
-    })
-    document.getElementById("form").reset();
+        }).then(() => {
+            document.getElementById("form").reset();
+            form.removeEventListener('submit', executeSwap);
+            swapBtn.classList.add('swapOff');
+            fromAmountInput.setAttribute('readonly','');
+            toCoinList.removeEventListener('change', () => {toInputChange()});
+            fromSelectedCoin = undefined;
+            toSelectedCoin = undefined;
+            fromAmount = undefined;
+            toAmount = undefined;
+            fromPrice = undefined;
+            toPrice = undefined;
+        })
+    } else {
+        Swal.fire({
+            background: '#051C2C',
+            color: '#fff',
+            icon: 'error',
+            iconColor: '#E93CAC',
+            title: 'Oops...',
+            text: "Something is not right. Maybe you didn't fill all fields?",
+            showConfirmButton: false,
+            timerProgressBar: true,
+            timer: 1500
+        })
+    }  
 }; //Funciona OK
 
 function calcularSwap() {
-    fromAmount = parseFloat(fromAmountInput.value);
-    criptocurrencies.forEach (currency => {
-        fromSelectedCoin == currency.ticker? fromPrice = currency.price: null;
-    })
-    
-    criptocurrencies.forEach (currency => {
-        toSelectedCoin == currency.ticker? toPrice = currency.price: null;
-    })
-    toAmount = fromAmount * fromPrice / toPrice;
-    toAmountInput.value = toAmount.toFixed(8);
+    let issue = false;
+    getCoin(fromCoinList)? null : issue = true;
+    getCoin(toCoinList)? null : issue? null: issue = true;
+
+    if (!issue && !isNaN(parseFloat(fromAmountInput.value))) {
+        
+            fromAmount = parseFloat(fromAmountInput.value);
+            criptocurrencies.forEach (currency => {
+                fromSelectedCoin == currency.ticker? fromPrice = currency.price: null;
+            })
+            
+            criptocurrencies.forEach (currency => {
+                toSelectedCoin == currency.ticker? toPrice = currency.price: null;
+            })
+            toAmount = fromAmount * fromPrice / toPrice;
+            toAmountInput.value = toAmount.toFixed(8);
+            swapCanHappen = true;
+    } else swapCanHappen = false; 
 }; //Funciona OK
 
-function restartStake() {
+function resumeStake() {
     stakedCriptocurrencies.forEach(stakedCurrency => {
         if (stakedCurrency.msStakeDate !== 0) {
             let n = Math.floor((new Date().getTime() - stakedCurrency.msStakeDate) / msYieldPeriod); // Redondeo hacia abajo para evitar carga de saldo al actualizar constantemente.
@@ -405,9 +444,16 @@ function getStoragedBalances() {
     } else {
         criptocurrencies = JSON.parse(localStorage.getItem('criptocurrenciesLS'));
         stakedCriptocurrencies = JSON.parse(localStorage.getItem('stakedCriptocurrenciesLS'));
-        restartStake();
+        resumeStake();
     }
 }; // Funciona OK
+
+function toInputChange() {
+/*     getCoin(toCoinList); */
+    addSwapCalcEvnt();
+    swapBtn.classList.remove('swapOff');
+    form.addEventListener('submit', executeSwap);
+} // Funciona OK
 
 document.addEventListener('DOMContentLoaded', () => {
     faucetState ? faucetBtn.classList.add('faucetOff') : null;
@@ -419,15 +465,10 @@ document.addEventListener('DOMContentLoaded', () => {
     loadAPYRates();
     showStakedAmount();
     addStakeUnstakeEvnt();
-    form.addEventListener('submit', executeSwap); // Funciona OK
-    fromCoinList.addEventListener('change', () => {getCoin(fromCoinList)}); // Funciona OK
-    toCoinList.addEventListener('change', () => {getCoin(toCoinList); addSwapCalcEvnt()}); // Funciona OK
+    fromCoinList.addEventListener('change', toCoinList.addEventListener('change', () => {toInputChange()})); // Funciona OK
     faucetBtn.addEventListener('click', faucetAdd); // Funciona OK
     resetBtn.addEventListener('click', resetFaucet) // Funciona OK
 }); //Funciona OK
 
 // Pendientes:
-// Luego del swap, quedan almacenadas las monedas seleccionadas y habilitado el input. Arreglar (posibilidad de hacerlo com Promise).
-// Ademas de deshabilitar boton (listo), mostrar temporizador en descuento en lugar del "Start now!".
-// Validar getCoin para que no tome como valor solo el de los options (childs). 
 // Orden de codigo: implementar type modules.

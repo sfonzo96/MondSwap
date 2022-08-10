@@ -9,6 +9,8 @@
     
     .wrapper {
         height: inherit;
+        padding: 4rem 0;
+        display: flex;
 
         &> div {
             display: flex;
@@ -48,6 +50,7 @@
             .btnContainer {
                 display: flex;
                 justify-content: space-evenly;
+
                 width: 80%;
 
                 button {
@@ -73,15 +76,15 @@
                         color: abs.color('main-blue');
                     }
 
-                &:active {
-                    top:.4rem;
-                    box-shadow: none;
-                }
+                    &:active {
+                        top:.4rem;
+                        box-shadow: none;
+                    }
+                    
                     &.faucetOff {
                         box-shadow: none;
                         color: darken(abs.color('altgrey'), 40%);
-                        text-shadow: none;
-                        border: 0.125em solid darken(abs.color('altgrey'), 40%);    
+                        border: 0.2rem solid darken(abs.color('altgrey'), 40%);    
                         background-color: abs.color('altgrey');
                         cursor: auto;
                         top:.4rem;

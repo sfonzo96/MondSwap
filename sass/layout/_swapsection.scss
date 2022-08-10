@@ -12,7 +12,7 @@
         flex-direction: column;
         align-items: center;
         height: inherit;
-        padding: 1rem;
+        padding: 4rem 0;
         gap: 4rem;
         
         h2 {
@@ -84,6 +84,15 @@
                 &:active {
                     top:.4rem;
                     box-shadow: none;
+                }
+
+                &.swapOff {
+                    box-shadow: none;
+                    color: darken(abs.color('altgrey'), 40%);
+                    border: 0.2rem solid darken(abs.color('altgrey'), 40%);    
+                    background-color: abs.color('altgrey');
+                    cursor: auto;
+                    top:.4rem;
                 }
             }
         }
