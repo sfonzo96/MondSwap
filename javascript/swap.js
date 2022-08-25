@@ -138,4 +138,4 @@ export function toInputChanges() {
     addSwapCalcEvnt();
     swapBtn.classList.remove('swapOff');
     swap.addEventListener('submit', executeSwap);
-} // Funciona OK
+};
